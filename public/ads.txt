@@ -1,0 +1,3 @@
+# Google AdSense ads.txt for TechVani
+# जब आपको AdSense अप्रूवल मिल जाए, तो नीचे pub-0000000000000000 को अपनी AdSense Publisher ID से बदलें:
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

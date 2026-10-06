@@ -1,0 +1,6 @@
+{
+  "name": "टेकवाणी (TechVani) - Hindi Tech Magazine & Portal",
+  "description": "भारत का प्रमुख हिंदी टेक पोर्टल - प्रोग्रामिंग, कीबोर्ड शॉर्टकट्स, कंप्यूटर ट्रिक्स और गैजेट समीक्षा। Django REST API रेडी, डायनामिक राउटिंग, ऑटो-जनरेटेड स्कीमा मार्कअप और गूगल पॉलिसी अनुकूलित।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
