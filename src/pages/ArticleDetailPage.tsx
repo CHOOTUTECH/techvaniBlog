@@ -196,6 +196,36 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
         <div dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br/>') }} />
       </div>
 
+      {/* If this article is linked to an interactive tool */}
+      {(article.slug === 'word-counter-online-tool-guide' || article.subCategory === 'ऑनलाइन टूल्स') && (
+        <div className="my-8 p-6 bg-gradient-to-r from-red-50 via-rose-50 to-orange-50 dark:from-red-950/40 dark:via-gray-800 dark:to-gray-800 rounded-2xl border-2 border-red-500 shadow-md flex flex-col sm:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-[#bb010d] text-white flex items-center justify-center shrink-0 shadow-md">
+              <span className="text-2xl">🛠️</span>
+            </div>
+            <div>
+              <span className="text-[11px] font-bold text-[#bb010d] uppercase tracking-wider">
+                लाइव टेक टूल (Live Interactive Tool)
+              </span>
+              <h4 className="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white mt-0.5">
+                टेकवाणी वर्ड &amp; कैरेक्टर काउंटर टूल आज़माएँ
+              </h4>
+              <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                अपने किसी भी आर्टिकल, निबंध या सोशल मीडिया पोस्ट के शब्द, अक्षर और पढ़ने का समय तुरंत मुफ़्त में मापें।
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => onNavigate('/tool/word-counter')}
+            className="w-full sm:w-auto bg-[#bb010d] hover:bg-[#e02924] text-white text-xs font-bold px-6 py-3 rounded-xl shadow transition-all shrink-0 cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span>लाइव टूल खोलें</span>
+            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </button>
+        </div>
+      )}
+
       {/* FAQs Section (with FAQPage schema support) */}
       {article.faqs && article.faqs.length > 0 && (
         <section className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-800">

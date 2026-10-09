@@ -127,6 +127,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   गैजेट समीक्षा
                 </button>
               </li>
+              <li>
+                <button onClick={() => onNavigate('/tools')} className="hover:text-white transition-colors">
+                  ऑनलाइन टूल्स
+                </button>
+              </li>
             </ul>
           </div>
 

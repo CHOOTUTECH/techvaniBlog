@@ -42,6 +42,17 @@ export function useRouter() {
       return { path: '/tag/:slug', params: { slug: tagMatch[1] }, searchParams };
     }
 
+    // /tool/:slug or /tools/:slug
+    const toolMatch = pathname.match(/^\/(?:tool|tools)\/([^/]+)/);
+    if (toolMatch) {
+      return { path: '/tool/:slug', params: { slug: toolMatch[1] }, searchParams };
+    }
+
+    // /tools
+    if (pathname === '/tools') {
+      return { path: '/tools', params: {}, searchParams };
+    }
+
     return { path: pathname || '/', params: {}, searchParams };
   }
 

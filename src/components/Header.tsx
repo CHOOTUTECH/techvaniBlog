@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleShareClick = () => {
     if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title: 'टेकवाणी', url: window.location.href }).catch(() => {});
+      navigator.share({ title: 'टेकवाणी', url: window.location.href }).catch(() => { });
     } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
       setCopiedToast(true);
@@ -162,16 +162,28 @@ export const Header: React.FC<HeaderProps> = ({
                   key={cat.id}
                   type="button"
                   onClick={() => onNavigate(isHome ? '/' : `/category/${cat.slug}`)}
-                  className={`px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap transition-all font-medium ${
-                    isActive
+                  className={`px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap transition-all font-medium ${isActive
                       ? 'bg-[#bb010d] text-white font-bold shadow-sm'
                       : 'text-gray-200 hover:text-white hover:bg-white/10'
-                  }`}
+                    }`}
                 >
                   {cat.name}
                 </button>
               );
             })}
+
+
+            {/* Online Tools Directory Link */}
+            <button
+              type="button"
+              onClick={() => onNavigate('/tools')}
+              className={`px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap transition-all font-medium cursor-pointer ${currentPath === '/tools' || currentPath.startsWith('/tool/')
+                  ? 'bg-[#bb010d] text-white font-bold shadow-sm'
+                  : 'text-gray-200 hover:text-white hover:bg-white/10'
+                }`}
+            >
+              ऑनलाइन टूल्स
+            </button>
           </nav>
 
           <div className="flex items-center gap-1.5 pl-3 shrink-0">

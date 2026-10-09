@@ -18,6 +18,8 @@ import { TermsPage } from './pages/TermsPage';
 import { EditorialTeamPage } from './pages/EditorialTeamPage';
 import { SitemapPage } from './pages/SitemapPage';
 import { AdminBlogEditorPage } from './pages/AdminBlogEditorPage';
+import { ToolViewerPage } from './pages/ToolViewerPage';
+import { ToolsDirectoryPage } from './pages/ToolsDirectoryPage';
 
 export default function App() {
   const { path, params, navigate } = useRouter();
@@ -58,6 +60,14 @@ export default function App() {
     if (path === '/tag/:slug' && params.slug) {
       return <TagPage slug={params.slug} onNavigate={navigate} />;
     }
+
+    if (path === '/tool/:slug' && params.slug) {
+      return <ToolViewerPage slug={params.slug} onNavigate={navigate} />;
+    }
+    if (path === '/tools') {
+      return <ToolsDirectoryPage onNavigate={navigate} />;
+    }
+
     if (path === '/privacy-policy') {
       return <PrivacyPolicyPage />;
     }
