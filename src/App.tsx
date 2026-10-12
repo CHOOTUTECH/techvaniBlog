@@ -48,9 +48,19 @@ export default function App() {
 
   // Render appropriate page view
   const renderCurrentView = () => {
-    if (path === '/article/:slug' && params.slug) {
-      return <ArticleDetailPage slug={params.slug} onNavigate={navigate} />;
+
+    if (
+      (path === '/article/:slug' || path === '/blog/:slug') &&
+      params.slug
+    ) {
+      return (
+        <ArticleDetailPage
+          slug={params.slug}
+          onNavigate={navigate}
+        />
+      );
     }
+
     if (path === '/product/:slug' && params.slug) {
       return <ProductReviewPage slug={params.slug} onNavigate={navigate} />;
     }

@@ -18,12 +18,19 @@ export function useRouter() {
     const searchParams = new URLSearchParams(window.location.search);
 
     // Dynamic Route Matching (Next.js style)
-    // /article/:slug
-    const articleMatch = pathname.match(/^\/article\/([^/]+)/);
-    if (articleMatch) {
-      return { path: '/article/:slug', params: { slug: articleMatch[1] }, searchParams };
-    }
+    const articleMatch = pathname.match(/^\/(?:article|blog)\/([^/]+)\/?$/);
 
+    if (articleMatch) {
+      return {
+        path: pathname.startsWith('/blog/')
+          ? '/blog/:slug'
+          : '/article/:slug',
+        params: {
+          slug: decodeURIComponent(articleMatch[1]),
+        },
+        searchParams,
+      };
+    }
     // /product/:slug
     const productMatch = pathname.match(/^\/product\/([^/]+)/);
     if (productMatch) {
