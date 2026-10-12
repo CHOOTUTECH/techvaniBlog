@@ -6,4 +6,4 @@ Disallow: /admin
 User-agent: Mediapartners-Google
 Allow: /
 
-Sitemap: https://techvani.in/sitemap.xml
+Sitemap: https://localfinder.shop/sitemap.xml
