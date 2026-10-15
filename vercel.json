@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/sitemap.xml",
-      "destination": "https://techvanibackend.onrender.com/sitemap.xml"
+      "destination": "https://api.techvani.co.in/sitemap.xml"
     },
     {
       "source": "/(.*)",
