@@ -329,7 +329,8 @@ python manage.py runserver
 ### React Frontend से कैसे जोड़ें:
 Frontend के `.env` में यह लाइन जोड़ें:
 \`\`\`env
-VITE_DJANGO_API_BASE_URL="http://127.0.0.1:8000/api/v1"
+VITE_DJANGO_API_BASE_URL="
+https://api.techvani.co.in/sitemap.xml"
 \`\`\`
 बस! Frontend अपने आप आपके Django सर्वर से कनेक्ट हो जाएगा।
 जब Django सर्वर बंद रहेगा, तब भी वेबसाइट बिना किसी क्रैश के सुचारू रूप से चलेगी।
