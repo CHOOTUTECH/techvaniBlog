@@ -1,32 +1,13 @@
 @import "tailwindcss";
 
-/* Base styles */
 @layer base {
-  html {
-    font-display: swap;
-  }
-
   body {
-    font-family:
-      "Noto Sans Devanagari",
-      "Noto Sans",
-      "Inter",
-      system-ui,
-      -apple-system,
-      sans-serif;
-
-    margin: 0;
-    min-height: 100vh;
-  }
-
-  img {
-    max-width: 100%;
+    font-family: 'Noto Sans Devanagari', 'Noto Sans', 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Material Symbols icons */
 .material-symbols-outlined {
-  font-family: "Material Symbols Outlined";
+  font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -37,13 +18,241 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  font-feature-settings: "liga";
-  -webkit-font-feature-settings: "liga";
+  -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
-
-  /* Reserve a consistent icon box */
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
 }
+
+/* =========================================================
+   ARTICLE CONTENT & HEADINGS TYPOGRAPHY STYLING (H1, H2, H3)
+   ========================================================= */
+.article-content {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+/* H1 Main Heading */
+.article-content h1, .article-h1 {
+  font-size: 1.875rem !important; /* ~30px */
+  line-height: 2.25rem !important;
+  font-weight: 800 !important;
+  color: #111827;
+  margin-top: 2.25rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid #e5e7eb;
+  letter-spacing: -0.02em;
+}
+.dark .article-content h1, .dark .article-h1 {
+  color: #ffffff !important;
+  border-bottom-color: #374151;
+}
+
+/* H2 Subheading */
+.article-content h2, .article-h2 {
+  font-size: 1.5rem !important; /* ~24px */
+  line-height: 2rem !important;
+  font-weight: 700 !important;
+  color: #1f2937;
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+  padding-left: 0.75rem;
+  border-left: 4px solid #bb010d;
+  letter-spacing: -0.015em;
+}
+.dark .article-content h2, .dark .article-h2 {
+  color: #f9fafb !important;
+}
+
+/* H3 Section Heading */
+.article-content h3, .article-h3 {
+  font-size: 1.25rem !important; /* ~20px */
+  line-height: 1.75rem !important;
+  font-weight: 700 !important;
+  color: #1f2937;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+.dark .article-content h3, .dark .article-h3 {
+  color: #f3f4f6 !important;
+}
+
+/* H4 Minor Heading */
+.article-content h4, .article-h4 {
+  font-size: 1.1rem !important;
+  line-height: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #374151;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+.dark .article-content h4, .dark .article-h4 {
+  color: #e5e7eb !important;
+}
+
+/* Paragraphs */
+.article-content p {
+  margin-bottom: 1.25rem;
+  color: #374151;
+  line-height: 1.85;
+}
+.dark .article-content p {
+  color: #d1d5db;
+}
+
+/* Bullet Lists */
+.article-content ul, .article-ul {
+  list-style-type: disc !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 1.75rem !important;
+}
+.article-content ul li, .article-ul li {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.75 !important;
+  color: #374151;
+}
+.dark .article-content ul li, .dark .article-ul li {
+  color: #d1d5db;
+}
+
+/* Numbered Lists */
+.article-content ol, .article-ol {
+  list-style-type: decimal !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 1.75rem !important;
+}
+.article-content ol li, .article-ol li {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.75 !important;
+  color: #374151;
+}
+.dark .article-content ol li, .dark .article-ol li {
+  color: #d1d5db;
+}
+
+/* Blockquotes */
+.article-content blockquote, .article-quote {
+  border-left: 4px solid #bb010d !important;
+  background-color: rgba(236, 245, 254, 0.6) !important;
+  padding: 0.875rem 1.25rem !important;
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+  margin: 1.5rem 0 !important;
+  font-style: italic !important;
+  color: #1f2937 !important;
+}
+.dark .article-content blockquote, .dark .article-quote {
+  background-color: rgba(31, 41, 55, 0.5) !important;
+  color: #e5e7eb !important;
+}
+
+/* Code Blocks & Pre */
+.article-content pre, .article-pre {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+  padding: 1.25rem !important;
+  border-radius: 0.875rem !important;
+  overflow-x: auto !important;
+  margin: 1.5rem 0 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.7 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Inline Code */
+.article-content code:not(pre code), .article-code {
+  background-color: rgba(187, 1, 13, 0.08) !important;
+  color: #bb010d !important;
+  padding: 0.2rem 0.45rem !important;
+  border-radius: 0.375rem !important;
+  font-family: ui-monospace, SFMono-Regular, monospace !important;
+  font-size: 0.875em !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(187, 1, 13, 0.2);
+}
+.dark .article-content code:not(pre code), .dark .article-code {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Horizontal Rule */
+.article-content hr, .article-hr {
+  border: 0 !important;
+  height: 1px !important;
+  background-color: #e5e7eb !important;
+  margin: 2rem 0 !important;
+}
+.dark .article-content hr, .dark .article-hr {
+  background-color: #374151 !important;
+}
+
+/* CKEditor Images & Figures */
+.article-content figure, .article-content figure.image {
+  margin: 1.75rem 0 !important;
+  text-align: center;
+}
+.article-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.875rem !important;
+  margin: 1.25rem auto !important;
+  display: block;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.article-content figcaption {
+  font-size: 0.8125rem !important;
+  color: #6b7280 !important;
+  margin-top: 0.5rem !important;
+  font-style: italic !important;
+}
+
+/* CKEditor Tables */
+.article-content table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.75rem 0 !important;
+  font-size: 0.9375rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+}
+.dark .article-content table {
+  border-color: #374151 !important;
+}
+.article-content table th {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+  font-weight: 700 !important;
+  padding: 0.75rem 1rem !important;
+  text-align: left !important;
+  border-bottom: 2px solid #e5e7eb !important;
+}
+.dark .article-content table th {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: #374151 !important;
+}
+.article-content table td {
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  color: #374151 !important;
+}
+.dark .article-content table td {
+  border-color: #1f2937 !important;
+  color: #d1d5db !important;
+}
+
+/* Links */
+.article-content a {
+  color: #bb010d !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important;
+}
+.article-content a:hover {
+  color: #e02924 !important;
+}
+
+

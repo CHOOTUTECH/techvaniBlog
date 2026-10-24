@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Article, ArticleComment } from '../types/api';
 import { djangoApi } from '../services/djangoApi';
 import { applySEO } from '../utils/seo';
-
+import { parseArticleContent } from '../utils/markdownParser';
 interface ArticleDetailPageProps {
   slug: string;
   onNavigate: (path: string) => void;
@@ -191,9 +191,9 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
         </section>
       )}
 
-      {/* Main Formatted Content */}
-      <div className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed space-y-5 text-sm sm:text-base">
-        <div dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br/>') }} />
+      {/* Main Formatted Content with Heading (H1, H2, H3) Support */}
+      <div className="article-content max-w-none text-gray-800 dark:text-gray-200">
+        <div dangerouslySetInnerHTML={{ __html: parseArticleContent(article.content) }} />
       </div>
 
       {/* If this article is linked to an interactive tool */}
@@ -341,6 +341,7 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
                 <img
                   src={rel.coverImage}
                   alt={rel.imageAlt}
+                  loading="lazy"
                   className="w-16 h-16 rounded-lg object-cover"
                 />
                 <div className="flex-1 min-w-0">

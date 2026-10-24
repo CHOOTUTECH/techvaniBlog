@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Article } from '../types/api';
 import { djangoApi } from '../services/djangoApi';
 import { applySEO } from '../utils/seo';
-
+import { parseArticleContent } from '../utils/markdownParser';
 interface ProductReviewPageProps {
   slug: string;
   onNavigate: (path: string) => void;
@@ -172,9 +172,8 @@ export const ProductReviewPage: React.FC<ProductReviewPageProps> = ({ slug, onNa
                 {Object.entries(article.productSpecs).map(([key, val], idx) => (
                   <tr
                     key={key}
-                    className={`border-b border-gray-100 dark:border-gray-800 ${
-                      idx % 2 === 0 ? 'bg-gray-50/50 dark:bg-gray-800/20' : ''
-                    }`}
+                    className={`border-b border-gray-100 dark:border-gray-800 ${idx % 2 === 0 ? 'bg-gray-50/50 dark:bg-gray-800/20' : ''
+                      }`}
                   >
                     <td className="py-2.5 px-4 font-bold text-gray-600 dark:text-gray-400 w-1/3">
                       {key}
@@ -190,9 +189,9 @@ export const ProductReviewPage: React.FC<ProductReviewPageProps> = ({ slug, onNa
         </section>
       )}
 
-      {/* Detailed review body */}
-      <div className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed space-y-5 text-sm sm:text-base">
-        <div dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br/>') }} />
+      {/* Detailed review body with H1, H2, H3 Support */}
+      <div className="article-content max-w-none text-gray-800 dark:text-gray-200">
+        <div dangerouslySetInnerHTML={{ __html: parseArticleContent(article.content) }} />
       </div>
 
       {/* Editorial Verdict Box */}
