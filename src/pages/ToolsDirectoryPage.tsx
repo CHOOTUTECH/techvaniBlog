@@ -10,7 +10,7 @@ export const ToolsDirectoryPage: React.FC<ToolsDirectoryPageProps> = ({ onNaviga
   useEffect(() => {
     applySEO({
       title: 'मुफ़्त ऑनलाइन टेक टूल्स और यूटिलिटीज | टेकवाणी (TechVani)',
-      description: 'टेकवाणी के मुफ़्त ऑनलाइन टूल्स: वर्ड काउंटर, कैरेक्टर काउंटर, टेक्स्ट यूटिलिटीज और डेवलपर टूल्स। उपयोग में आसान और 100% मुफ़्त।',
+      description: 'टेकवाणी के मुफ़्त ऑनलाइन टूल्स:  वर्ड काउंटर, कैरेक्टर काउंटर, टेक्स्ट यूटिलिटीज और डेवलपर टूल्स। उपयोग में आसान और 100% मुफ़्त।',
       ogType: 'website',
       canonicalUrl: `${window.location.origin}/tools`,
       breadcrumbs: [
