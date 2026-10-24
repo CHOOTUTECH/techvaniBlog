@@ -16,46 +16,45 @@ export interface SEOConfig {
   isProduct?: boolean;
 }
 
-const DEFAULT_ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://techvani.in';
-
+const DEFAULT_ORIGIN = 'https://www.techvani.co.in';
 /**
  * Generate NewsArticle / TechArticle JSON-LD schema
  */
 export function generateArticleSchema(article: Article, currentUrl: string) {
   const schemaType = article.schemaType || 'TechArticle';
 
-  const schema: any = {
+  const parsedPublishedDate = new Date(article.publishedAt);
+
+  const datePublished = Number.isNaN(parsedPublishedDate.getTime())
+    ? undefined
+    : parsedPublishedDate.toISOString();
+
+  const schema: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': schemaType,
-    'headline': article.metaTitle || article.title,
-    'description': article.metaDescription || article.excerpt,
-    'image': [article.ogImage || article.coverImage],
-    'datePublished': '2024-10-24T09:00:00+05:30',
-    'dateModified': '2024-10-24T10:30:00+05:30',
-    'author': {
+    headline: article.metaTitle || article.title,
+    description: article.metaDescription || article.excerpt,
+    image: [article.ogImage || article.coverImage],
+    ...(datePublished ? { datePublished } : {}),
+    author: {
       '@type': 'Person',
-      'name': article.author.name,
-      'jobTitle': article.author.role,
-      'url': `${DEFAULT_ORIGIN}/author/${article.author.id}`,
+      name: article.author.name,
     },
-    'publisher': {
-      '@type': 'NewsMediaOrganization',
-      'name': 'टेकवाणी (TechVani)',
-      'url': DEFAULT_ORIGIN,
-      'logo': {
-        '@type': 'ImageObject',
-        'url': `${DEFAULT_ORIGIN}/logo.png`,
-      },
+    publisher: {
+      '@type': 'Organization',
+      name: 'टेकवाणी (TechVani)',
+      url: 'https://www.techvani.co.in/',
     },
-    'mainEntityOfPage': {
+    mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': currentUrl,
     },
-    'articleSection': article.category.name,
-    'keywords': article.keywords?.join(', ') || article.tags.map((t) => t.name).join(', '),
-    'inLanguage': 'hi',
+    articleSection: article.category.name,
+    keywords:
+      article.keywords?.join(', ') ||
+      article.tags.map((tag) => tag.name).join(', '),
+    inLanguage: 'hi',
   };
-
   // If article has step-by-step shortcuts, attach HowTo / ItemList
   if (article.shortcuts && article.shortcuts.length > 0) {
     schema['hasPart'] = {
@@ -175,15 +174,18 @@ export function applySEO(config: SEOConfig) {
 
   // Helper for Link tags (canonical)
   const setLink = (rel: string, href: string) => {
-    let element = document.querySelector(`link[rel="${rel}"]`);
+    let element = document.querySelector<HTMLLinkElement>(
+      `link[rel="${rel}"]`
+    );
+
     if (!element) {
       element = document.createElement('link');
-      element.setAttribute(rel, rel);
+      element.setAttribute('rel', rel);
       document.head.appendChild(element);
     }
+
     element.setAttribute('href', href);
   };
-
   // 2. Standard Meta Tags (Prioritize backend-driven description)
   const metaDescription = config.article?.metaDescription || config.description;
   setMeta('name', 'description', metaDescription);
@@ -200,10 +202,9 @@ export function applySEO(config: SEOConfig) {
   setMeta('property', 'og:description', metaDescription);
   setMeta('property', 'og:type', config.ogType || 'website');
   setMeta('property', 'og:site_name', 'टेकवाणी (TechVani)');
-  
-  const currentUrl = config.article?.canonicalUrl || config.canonicalUrl || (typeof window !== 'undefined' ? window.location.href : DEFAULT_ORIGIN);
-  setMeta('property', 'og:url', currentUrl);
-  setLink('canonical', currentUrl);
+
+  const currentUrl =
+    `${DEFAULT_ORIGIN}/article/${config.article?.slug}`;
 
   const img = config.article?.ogImage || config.ogImage || (config.article ? config.article.coverImage : 'https://techvani.in/og-cover.png');
   setMeta('property', 'og:image', img);
