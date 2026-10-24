@@ -203,8 +203,15 @@ export function applySEO(config: SEOConfig) {
   setMeta('property', 'og:type', config.ogType || 'website');
   setMeta('property', 'og:site_name', 'टेकवाणी (TechVani)');
 
-  const currentUrl =
-    `${DEFAULT_ORIGIN}/article/${config.article?.slug}`;
+ 
+  const currentUrl = config.canonicalUrl
+    ? new URL(config.canonicalUrl, DEFAULT_ORIGIN).href
+    : config.article?.slug
+      ? `${DEFAULT_ORIGIN}/article/${config.article.slug}`
+      : `${DEFAULT_ORIGIN}${window.location.pathname}`;
+
+  setLink('canonical', currentUrl);
+  setMeta('property', 'og:url', currentUrl);
 
   const img = config.article?.ogImage || config.ogImage || (config.article ? config.article.coverImage : 'https://techvani.in/og-cover.png');
   setMeta('property', 'og:image', img);
