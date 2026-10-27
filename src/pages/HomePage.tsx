@@ -220,236 +220,235 @@ export const HomePage: React.FC<HomePageProps> = ({
             {page === 1 && (
               <>
                 {/* SECTION 1: Programming & Coding Corner (Grid View) */}
-            <div className="flex flex-col">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
-                <div className="flex items-center gap-2 mb-2 sm:mb-0">
-                  <span className="material-symbols-outlined text-[#bb010d] text-[28px]">terminal</span>
-                  <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-                    प्रोग्रामिंग और कोडिंग कॉर्नर
-                  </h2>
-                </div>
-                {/* Subtabs */}
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {['सभी', 'Python', 'JavaScript', 'Web Dev'].map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => setProgrammingFilter(tab)}
-                      className={`text-xs px-3 py-1 rounded-lg font-bold transition-all ${
-                        programmingFilter === tab
-                          ? 'bg-[#bb010d] text-white shadow-sm'
-                          : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-[#bb010d]'
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 3-Column Coding Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                {programmingArticles.map((article) => (
-                  <article
-                    key={article.id}
-                    onClick={() => onNavigate(`/article/${article.slug}`)}
-                    className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all flex flex-col cursor-pointer group"
-                  >
-                    <div className="relative h-44 w-full overflow-hidden">
-                      <img
-                        src={article.coverImage}
-                        alt={article.imageAlt}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <span className="absolute top-2.5 left-2.5 bg-[#bb010d] text-white text-[10px] px-2.5 py-0.5 rounded font-bold uppercase shadow">
-                        {article.subCategory || 'टूलकिट'}
-                      </span>
+                <div className="flex flex-col">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-0">
+                      <span className="material-symbols-outlined text-[#bb010d] text-[28px]">terminal</span>
+                      <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                        प्रोग्रामिंग और कोडिंग कॉर्नर
+                      </h2>
                     </div>
-                    <div className="p-4 flex flex-col flex-1 justify-between gap-3">
-                      <div className="space-y-1.5">
-                        <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-[#bb010d] transition-colors">
-                          {article.title}
-                        </h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                          {article.excerpt}
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between text-gray-500 dark:text-gray-400 text-xs pt-2 border-t border-gray-100 dark:border-gray-800">
-                        <span>{article.publishedAt}</span>
-                        <span className="flex items-center gap-0.5 text-[#bb010d] font-bold">
-                          पढ़ें <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                        </span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            {/* SECTION 2: Computer Shortcuts & Super Tricks (Horizontal Feed List) */}
-            <div className="flex flex-col">
-              <div className="flex items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#bb010d] text-[28px]">keyboard</span>
-                  <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-                    कंप्यूटर शॉर्टकट्स और सुपर ट्रिक्स
-                  </h2>
-                </div>
-                <button
-                  onClick={() => onNavigate('/category/keyboard-shortcuts')}
-                  className="text-xs font-bold text-[#bb010d] hover:underline flex items-center gap-1"
-                >
-                  सभी ट्रिक्स देखें <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-                </button>
-              </div>
-
-              {/* Feed List (3 Horizontal Rows) */}
-              <div className="flex flex-col gap-4">
-                {shortcutArticles.map((article) => (
-                  <article
-                    key={article.id}
-                    onClick={() => onNavigate(`/article/${article.slug}`)}
-                    className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all p-4 flex flex-col sm:flex-row gap-5 items-center cursor-pointer group"
-                  >
-                    <div className="w-full sm:w-56 h-40 shrink-0 rounded-xl overflow-hidden relative">
-                      <img
-                        src={article.coverImage}
-                        alt={article.imageAlt}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <span className="absolute bottom-2 left-2 bg-black/80 text-white text-[10px] px-2 py-0.5 rounded backdrop-blur">
-                        {article.tags[0]?.name || 'शॉर्टकट्स'}
-                      </span>
-                    </div>
-                    <div className="flex flex-col flex-1 justify-between h-full gap-2 w-full">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                          <span className="text-[#bb010d] font-bold uppercase">{article.category.name}</span>
-                          <span>•</span>
-                          <span>{article.publishedAt}</span>
-                          <span>•</span>
-                          <span>{article.readingTimeMinutes} मिनट अध्ययन</span>
-                        </div>
-                        <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#bb010d] transition-colors leading-snug">
-                          {article.title}
-                        </h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                          {article.excerpt}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 flex items-center justify-between border-t border-gray-100 dark:border-gray-800">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          {article.shortcuts?.slice(0, 2).map((s) => (
-                            <span
-                              key={s.key}
-                              className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-[11px] font-mono font-bold px-2 py-0.5 rounded border border-gray-200 dark:border-gray-700"
-                            >
-                              {s.key}
-                            </span>
-                          ))}
-                        </div>
+                    {/* Subtabs */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {['सभी', 'Python', 'JavaScript', 'Web Dev'].map((tab) => (
                         <button
-                          type="button"
-                          className="bg-[#bb010d] hover:bg-[#e02924] text-white text-xs px-3.5 py-1.5 rounded-lg font-bold shadow-sm transition-colors"
+                          key={tab}
+                          onClick={() => setProgrammingFilter(tab)}
+                          className={`text-xs px-3 py-1 rounded-lg font-bold transition-all ${programmingFilter === tab
+                            ? 'bg-[#bb010d] text-white shadow-sm'
+                            : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-[#bb010d]'
+                            }`}
                         >
-                          पूरा पढ़ें
+                          {tab}
                         </button>
-                      </div>
+                      ))}
                     </div>
-                  </article>
-                ))}
-              </div>
-            </div>
+                  </div>
 
-            {/* SECTION 3: Video / Interactive Tutorial Banner (Wide Media Feature) */}
-            <div className="relative rounded-2xl overflow-hidden shadow-xl bg-[#141d23] text-white min-h-[300px] flex items-center">
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-30"
-                style={{
-                  backgroundImage:
-                    "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmPzrlAUiG9ZVqrh8oGAOW6-woIw2-JfVQ-vKXrCPVZldMLc3aT5hc6AzZYeJauiyFT4ko0xlYNUS4gHxThphgKygR-pIH7831qQsre1GU_ekXSm54K_UwUK3-uUrBu5YKEJkB2bIVdYguSJkYyBwifrqHJm1tEg0Oen8TwWWddXqByrYy-_8p2QSQXCB8XA0QX0K_OX0hkHddY9UWjRgQl600p2TsR_1rjm-WE6nKr7J_wXI96wZe')",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#141d23] via-[#141d23]/85 to-transparent" />
-              <div className="relative z-10 p-6 md:p-10 max-w-xl flex flex-col items-start gap-4">
-                <span className="bg-[#bb010d] text-white text-xs px-3 py-1 rounded font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
-                  <span className="material-symbols-outlined text-[16px]">play_circle</span> वीडियो ट्यूटोरियल
-                </span>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-                  पायथन क्रैश कोर्स 2025: सिर्फ 1 घंटे में पूरे बेसिक्स समझें
-                </h2>
-                <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
-                  वेरिएबल्स, लूप्स, फंक्शन्स और ऑब्जेक्ट ओरिएंटेड प्रोग्रामिंग को आसान हिंदी में व्यावहारिक उदाहरणों के साथ लाइव कोड करके समझें।
-                </p>
-                <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={onOpenVideoTutorial}
-                    className="bg-[#bb010d] hover:bg-[#e02924] text-white text-sm font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg transition-all cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">smart_display</span> अभी देखना शुरू करें
-                  </button>
-                  <span className="text-gray-400 text-xs">
-                    ⏱️ 58 मिनट • फ्री रिसोर्स कोड
-                  </span>
+                  {/* 3-Column Coding Cards Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                    {programmingArticles.map((article) => (
+                      <article
+                        key={article.id}
+                        onClick={() => onNavigate(`/article/${article.slug}`)}
+                        className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all flex flex-col cursor-pointer group"
+                      >
+                        <div className="relative h-44 w-full overflow-hidden">
+                          <img
+                            src={article.coverImage}
+                            alt={article.imageAlt}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute top-2.5 left-2.5 bg-[#bb010d] text-white text-[10px] px-2.5 py-0.5 rounded font-bold uppercase shadow">
+                            {article.subCategory || 'टूलकिट'}
+                          </span>
+                        </div>
+                        <div className="p-4 flex flex-col flex-1 justify-between gap-3">
+                          <div className="space-y-1.5">
+                            <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-[#bb010d] transition-colors">
+                              {article.title}
+                            </h3>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                              {article.excerpt}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between text-gray-500 dark:text-gray-400 text-xs pt-2 border-t border-gray-100 dark:border-gray-800">
+                            <span>{article.publishedAt}</span>
+                            <span className="flex items-center gap-0.5 text-[#bb010d] font-bold">
+                              पढ़ें <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* SECTION 4: Latest Tech Reviews & Hardware (2-Grid Comparison) */}
-            <div className="flex flex-col">
-              <div className="flex items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#bb010d] text-[28px]">devices</span>
-                  <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-                    स्मार्ट टेक गैजेट्स और हार्डवेयर तुलना
-                  </h2>
+                {/* SECTION 2: Computer Shortcuts & Super Tricks (Horizontal Feed List) */}
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#bb010d] text-[28px]">keyboard</span>
+                      <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                        कंप्यूटर शॉर्टकट्स और सुपर ट्रिक्स
+                      </h2>
+                    </div>
+                    <button
+                      onClick={() => onNavigate('/category/keyboard-shortcuts')}
+                      className="text-xs font-bold text-[#bb010d] hover:underline flex items-center gap-1"
+                    >
+                      सभी ट्रिक्स देखें <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                    </button>
+                  </div>
+
+                  {/* Feed List (3 Horizontal Rows) */}
+                  <div className="flex flex-col gap-4">
+                    {shortcutArticles.map((article) => (
+                      <article
+                        key={article.id}
+                        onClick={() => onNavigate(`/article/${article.slug}`)}
+                        className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all p-4 flex flex-col sm:flex-row gap-5 items-center cursor-pointer group"
+                      >
+                        <div className="w-full sm:w-56 h-40 shrink-0 rounded-xl overflow-hidden relative">
+                          <img
+                            src={article.coverImage}
+                            alt={article.imageAlt}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <span className="absolute bottom-2 left-2 bg-black/80 text-white text-[10px] px-2 py-0.5 rounded backdrop-blur">
+                            {article.tags[0]?.name || 'शॉर्टकट्स'}
+                          </span>
+                        </div>
+                        <div className="flex flex-col flex-1 justify-between h-full gap-2 w-full">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                              <span className="text-[#bb010d] font-bold uppercase">{article.category.name}</span>
+                              <span>•</span>
+                              <span>{article.publishedAt}</span>
+                              <span>•</span>
+                              <span>{article.readingTimeMinutes} मिनट अध्ययन</span>
+                            </div>
+                            <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#bb010d] transition-colors leading-snug">
+                              {article.title}
+                            </h3>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                              {article.excerpt}
+                            </p>
+                          </div>
+
+                          <div className="pt-2 flex items-center justify-between border-t border-gray-100 dark:border-gray-800">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {article.shortcuts?.slice(0, 2).map((s) => (
+                                <span
+                                  key={s.key}
+                                  className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-[11px] font-mono font-bold px-2 py-0.5 rounded border border-gray-200 dark:border-gray-700"
+                                >
+                                  {s.key}
+                                </span>
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              className="bg-[#bb010d] hover:bg-[#e02924] text-white text-xs px-3.5 py-1.5 rounded-lg font-bold shadow-sm transition-colors"
+                            >
+                              पूरा पढ़ें
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">सच्ची टेस्टिंग और बेंचमार्क</span>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {gadgetArticles.map((article) => (
-                  <article
-                    key={article.id}
-                    onClick={() => onNavigate(`/product/${article.slug}`)}
-                    className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all flex flex-col cursor-pointer group"
-                  >
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <img
-                        src={article.coverImage}
-                        alt={article.imageAlt}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <span className="absolute top-3 left-3 bg-[#bb010d] text-white text-[10px] px-2.5 py-0.5 rounded font-bold uppercase shadow">
-                        गैजेट मुकाबला
-                      </span>
-                      <span className="absolute bottom-3 right-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur text-gray-900 dark:text-white text-xs px-2.5 py-0.5 rounded-lg font-extrabold shadow">
-                        रेटिंग: {article.rating}/10
+                {/* SECTION 3: Video / Interactive Tutorial Banner (Wide Media Feature) */}
+                <div className="relative rounded-2xl overflow-hidden shadow-xl bg-[#141d23] text-white min-h-[300px] flex items-center">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center opacity-30"
+                    style={{
+                      backgroundImage:
+                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmPzrlAUiG9ZVqrh8oGAOW6-woIw2-JfVQ-vKXrCPVZldMLc3aT5hc6AzZYeJauiyFT4ko0xlYNUS4gHxThphgKygR-pIH7831qQsre1GU_ekXSm54K_UwUK3-uUrBu5YKEJkB2bIVdYguSJkYyBwifrqHJm1tEg0Oen8TwWWddXqByrYy-_8p2QSQXCB8XA0QX0K_OX0hkHddY9UWjRgQl600p2TsR_1rjm-WE6nKr7J_wXI96wZe')",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#141d23] via-[#141d23]/85 to-transparent" />
+                  <div className="relative z-10 p-6 md:p-10 max-w-xl flex flex-col items-start gap-4">
+                    <span className="bg-[#bb010d] text-white text-xs px-3 py-1 rounded font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
+                      <span className="material-symbols-outlined text-[16px]">play_circle</span> वीडियो ट्यूटोरियल
+                    </span>
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
+                      पायथन क्रैश कोर्स 2025: सिर्फ 1 घंटे में पूरे बेसिक्स समझें
+                    </h2>
+                    <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
+                      वेरिएबल्स, लूप्स, फंक्शन्स और ऑब्जेक्ट ओरिएंटेड प्रोग्रामिंग को आसान हिंदी में व्यावहारिक उदाहरणों के साथ लाइव कोड करके समझें।
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={onOpenVideoTutorial}
+                        className="bg-[#bb010d] hover:bg-[#e02924] text-white text-sm font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">smart_display</span> अभी देखना शुरू करें
+                      </button>
+                      <span className="text-gray-400 text-xs">
+                        ⏱️ 58 मिनट • फ्री रिसोर्स कोड
                       </span>
                     </div>
-                    <div className="p-5 flex flex-col flex-1 justify-between gap-3">
-                      <div className="space-y-2">
-                        <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#bb010d] transition-colors leading-snug">
-                          {article.title}
-                        </h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-3">
-                          {article.excerpt}
-                        </p>
-                      </div>
-                      <div className="pt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
-                        <span>संपादक: {article.author.name}</span>
-                        <span className="text-[#bb010d] font-bold flex items-center gap-0.5 group-hover:underline">
-                          समीक्षा पढ़ें <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                        </span>
-                      </div>
+                  </div>
+                </div>
+
+                {/* SECTION 4: Latest Tech Reviews & Hardware (2-Grid Comparison) */}
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between pb-3 mb-5 bg-[#ecf5fe] dark:bg-gray-800/60 p-4 rounded-2xl border border-blue-100 dark:border-gray-700/50">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#bb010d] text-[28px]">devices</span>
+                      <h2 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                        स्मार्ट टेक गैजेट्स और हार्डवेयर तुलना
+                      </h2>
                     </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
+                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">सच्ची टेस्टिंग और बेंचमार्क</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {gadgetArticles.map((article) => (
+                      <article
+                        key={article.id}
+                        onClick={() => onNavigate(`/product/${article.slug}`)}
+                        className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all flex flex-col cursor-pointer group"
+                      >
+                        <div className="relative h-48 w-full overflow-hidden">
+                          <img
+                            src={article.coverImage}
+                            alt={article.imageAlt}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <span className="absolute top-3 left-3 bg-[#bb010d] text-white text-[10px] px-2.5 py-0.5 rounded font-bold uppercase shadow">
+                            गैजेट मुकाबला
+                          </span>
+                          <span className="absolute bottom-3 right-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur text-gray-900 dark:text-white text-xs px-2.5 py-0.5 rounded-lg font-extrabold shadow">
+                            रेटिंग: {article.rating}/10
+                          </span>
+                        </div>
+                        <div className="p-5 flex flex-col flex-1 justify-between gap-3">
+                          <div className="space-y-2">
+                            <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#bb010d] transition-colors leading-snug">
+                              {article.title}
+                            </h3>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-3">
+                              {article.excerpt}
+                            </p>
+                          </div>
+                          <div className="pt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                            <span>संपादक: {article.author.name}</span>
+                            <span className="text-[#bb010d] font-bold flex items-center gap-0.5 group-hover:underline">
+                              समीक्षा पढ़ें <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* SECTION 4: Latest Articles Feed with Pagination (2 or 3 articles per page) */}
             <div id="main-feed" className="flex flex-col gap-6 pt-4">
@@ -473,22 +472,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <button
                       type="button"
                       onClick={() => { setPageSize(2); setPage(1); }}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                        pageSize === 2
-                          ? 'bg-[#bb010d] text-white shadow-sm'
-                          : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
-                      }`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${pageSize === 2
+                        ? 'bg-[#bb010d] text-white shadow-sm'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
+                        }`}
                     >
                       2 लेख
                     </button>
                     <button
                       type="button"
                       onClick={() => { setPageSize(3); setPage(1); }}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                        pageSize === 3
-                          ? 'bg-[#bb010d] text-white shadow-sm'
-                          : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
-                      }`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${pageSize === 3
+                        ? 'bg-[#bb010d] text-white shadow-sm'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
+                        }`}
                     >
                       3 लेख
                     </button>
@@ -556,11 +553,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                     key={p}
                     type="button"
                     onClick={() => handlePageChange(p)}
-                    className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      page === p
-                        ? 'bg-[#bb010d] text-white shadow-md scale-105 ring-2 ring-red-500/20'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                    }`}
+                    className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${page === p
+                      ? 'bg-[#bb010d] text-white shadow-md scale-105 ring-2 ring-red-500/20'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      }`}
                   >
                     {p}
                   </button>

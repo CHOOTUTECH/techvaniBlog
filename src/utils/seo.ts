@@ -155,10 +155,11 @@ export function applySEO(config: SEOConfig) {
   if (typeof document === 'undefined') return;
 
   // 1. Page Title (Prioritize backend-driven metaTitle if provided)
-  const rawTitle = config.article?.metaTitle || config.title;
-  const formattedTitle = rawTitle.includes('टेकवाणी')
-    ? rawTitle
-    : `${rawTitle} | टेकवाणी (TechVani)`;
+  const rawTitle = (config.article?.metaTitle || config.title || '').trim();
+  const safeTitle = rawTitle || (config.article?.title ?? 'TechVani');
+  const formattedTitle = safeTitle.includes('टेकवाणी')
+    ? safeTitle
+    : `${safeTitle} | टेकवाणी (TechVani)`;
   document.title = formattedTitle;
 
   // Helper to set or create meta tag
@@ -187,11 +188,12 @@ export function applySEO(config: SEOConfig) {
     element.setAttribute('href', href);
   };
   // 2. Standard Meta Tags (Prioritize backend-driven description)
-  const metaDescription = config.article?.metaDescription || config.description;
+  const metaDescription =
+    (config.article?.metaDescription ||
+      config.article?.excerpt ||
+      config.description ||
+      '').trim() || `${config.article?.title || 'TechVani'} — हिंदी में पढ़ें।`;
   setMeta('name', 'description', metaDescription);
-  setMeta('name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
-  setMeta('name', 'author', config.article ? config.article.author.name : 'TechVani Editorial Team');
-
   // Meta Keywords if provided by backend
   if (config.article?.keywords && config.article.keywords.length > 0) {
     setMeta('name', 'keywords', config.article.keywords.join(', '));
@@ -203,17 +205,22 @@ export function applySEO(config: SEOConfig) {
   setMeta('property', 'og:type', config.ogType || 'website');
   setMeta('property', 'og:site_name', 'टेकवाणी (TechVani)');
 
- 
-  const currentUrl = config.canonicalUrl
+
+  let currentUrl = config.canonicalUrl
     ? new URL(config.canonicalUrl, DEFAULT_ORIGIN).href
     : config.article?.slug
       ? `${DEFAULT_ORIGIN}/article/${config.article.slug}`
       : `${DEFAULT_ORIGIN}${window.location.pathname}`;
-
+  currentUrl = currentUrl.replace(/\/+$/, '') || `${DEFAULT_ORIGIN}/`;
   setLink('canonical', currentUrl);
   setMeta('property', 'og:url', currentUrl);
 
-  const img = config.article?.ogImage || config.ogImage || (config.article ? config.article.coverImage : 'https://techvani.in/og-cover.png');
+  const img =
+    config.article?.ogImage ||
+    config.ogImage ||
+    (config.article && config.article.coverImage
+      ? config.article.coverImage
+      : 'https://www.techvani.co.in/og-cover.png');
   setMeta('property', 'og:image', img);
 
   // 4. Twitter Card Tags

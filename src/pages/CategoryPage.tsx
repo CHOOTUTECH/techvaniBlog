@@ -3,6 +3,7 @@ import { Article, Category } from '../types/api';
 import { djangoApi } from '../services/djangoApi';
 import { applySEO } from '../utils/seo';
 
+
 interface CategoryPageProps {
   slug: string;
   onNavigate: (path: string) => void;

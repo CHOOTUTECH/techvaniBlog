@@ -90,6 +90,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
               <img
                 src={author.avatar}
                 alt={author.name}
+                loading="lazy"
                 className="w-16 h-16 rounded-2xl object-cover ring-2 ring-red-500/30 shrink-0"
               />
               <div className="min-w-0">

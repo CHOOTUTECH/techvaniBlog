@@ -109,6 +109,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   <img
                     src={article.coverImage}
                     alt={article.imageAlt}
+                    loading="lazy"
                     className="w-14 h-14 rounded-lg object-cover shrink-0"
                   />
                   <div className="flex-1 min-w-0">

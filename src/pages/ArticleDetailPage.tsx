@@ -3,6 +3,7 @@ import { Article, ArticleComment } from '../types/api';
 import { djangoApi } from '../services/djangoApi';
 import { applySEO } from '../utils/seo';
 import { parseArticleContent } from '../utils/markdownParser';
+import ReactMarkdown from 'react-markdown';
 interface ArticleDetailPageProps {
   slug: string;
   onNavigate: (path: string) => void;
@@ -95,7 +96,7 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
           {article.category.name}
         </button>
         <span>/</span>
-        <span className="text-gray-800 dark:text-gray-200 truncate max-w-xs">{article.title}</span>
+        <span className="text-gray-800 dark:text-gray-200 truncate max-w-xs"><h1>{article.title}</h1></span>
       </nav>
 
       {/* Header Info */}
