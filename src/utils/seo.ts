@@ -34,7 +34,7 @@ export function generateArticleSchema(article: Article, currentUrl: string) {
     '@type': schemaType,
     headline: article.metaTitle || article.title,
     description: article.metaDescription || article.excerpt,
-    image: [article.ogImage || article.coverImage],
+    image: [article.coverImage || article.ogImage].filter(Boolean),
     ...(datePublished ? { datePublished } : {}),
     author: {
       '@type': 'Person',
@@ -216,12 +216,12 @@ export function applySEO(config: SEOConfig) {
   setMeta('property', 'og:url', currentUrl);
 
   const img =
+    config.article?.coverImage ||
     config.article?.ogImage ||
     config.ogImage ||
-    (config.article && config.article.coverImage
-      ? config.article.coverImage
-      : 'https://www.techvani.co.in/og-cover.png');
+    'https://www.techvani.co.in/og-cover.png';
   setMeta('property', 'og:image', img);
+
 
   // 4. Twitter Card Tags
   setMeta('name', 'twitter:card', 'summary_large_image');

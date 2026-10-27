@@ -22,7 +22,7 @@ export const ProductReviewPage: React.FC<ProductReviewPageProps> = ({ slug, onNa
           title: data.metaTitle || `${data.title} – विस्तृत समीक्षा & बेंचमार्क`,
           description: data.metaDescription || `${data.excerpt} जानिए कीमत, फीचर्स, पेशेवरों और कमियों का निष्पक्ष विश्लेषण। रेटिंग: ${data.rating || '9.0'}/10।`,
           ogType: 'product',
-          ogImage: data.ogImage || data.coverImage,
+          ogImage: data.coverImage || data.ogImage,
           canonicalUrl: data.canonicalUrl || `${window.location.origin}/product/${data.slug}`,
           article: data,
           isProduct: true,

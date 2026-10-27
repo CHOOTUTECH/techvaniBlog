@@ -29,8 +29,8 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
           title: data.metaTitle || data.title,
           description: data.metaDescription || data.excerpt,
           ogType: 'article',
-          ogImage: data.ogImage || data.coverImage,
-          canonicalUrl: data.canonicalUrl || `${window.location.origin}/article/${data.slug}`,
+          ogImage: data.coverImage || data.ogImage,
+          canonicalUrl: data.canonicalUrl || `https://www.techvani.co.in/article/${data.slug}`,
           article: data,
           breadcrumbs: [
             { name: 'मुख्य पृष्ठ', url: '/' },
@@ -96,7 +96,7 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ slug, onNa
           {article.category.name}
         </button>
         <span>/</span>
-        <span className="text-gray-800 dark:text-gray-200 truncate max-w-xs"><h1>{article.title}</h1></span>
+        <span className="text-gray-800 dark:text-gray-200 truncate max-w-xs">{article.title}</span>
       </nav>
 
       {/* Header Info */}

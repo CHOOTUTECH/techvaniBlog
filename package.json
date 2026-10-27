@@ -16,11 +16,17 @@
     "source": "dist",
     "destination": "dist",
     "include": [
-      "/"
+      "/",
+      "/article/computer-programming-kya-hai",
+      "/article/vivo-y600-5g-price-in-india-pro-ultra-turbo",
+      "/article/ai-cybersecurity-threat-2026-php-banking-attacks",
+      "/article/ms-excel-magical-shortcuts",
+      "/article/5-easy-steps-to-secure-home-wifi-network",
+      "/article/python-10-useful-one-liner-codes"
     ],
-    "crawl": true,
-    "renderAfterTime": 5000,
+    "renderAfterTime": 10000,
     "skipThirdPartyRequests": false,
+    "ignoreHTTPSErrors": true,
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
