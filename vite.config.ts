@@ -1,11 +1,14 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      target: 'es2019',   // 👈 यह नई लाइन जोड़ें
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

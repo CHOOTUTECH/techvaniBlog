@@ -20,7 +20,7 @@
     ],
     "crawl": true,
     "renderAfterTime": 5000,
-    "skipThirdPartyRequests": true,
+    "skipThirdPartyRequests": false,
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
