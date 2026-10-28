@@ -5,5 +5,4 @@ Disallow: /admin
 # Google AdSense Crawler
 User-agent: Mediapartners-Google
 Allow: /
-
-Sitemap: https://api.techvani.co.in/sitemap.xml
+Sitemap: https://www.techvani.co.in/sitemap.xml
