@@ -47,9 +47,13 @@ class DjangoApiService {
     pageSize?: number;
   }): Promise<DRFPaginatedResponse<Article>> {
     const query = new URLSearchParams();
+
     if (params?.category && params.category !== 'home') {
       query.set('category', params.category);
       query.set('category__slug', params.category);
+    }
+    if (params?.subCategory && params.subCategory !== 'सभी') {
+      query.set('sub_category', params.subCategory); // 🔥 यह जोड़ा गया
     }
     if (params?.tag) {
       query.set('tag', params.tag);
@@ -67,18 +71,12 @@ class DjangoApiService {
       const res = await this.fetchWithTimeout(url);
       if (res.ok) {
         const data = await res.json();
-        console.info(`%c[Django API Success] Loaded ${data?.results?.length ?? 0} real articles from: ${url}`, 'color: #10b981; font-weight: bold;');
+        // 🔥 अगर Django सर्वर चालू है लेकिन फ़िल्टर काम नहीं कर रहा, तो हम यहाँ चेक कर सकते हैं
+        // लेकिन फिलहाल हम इसे वैसे ही रहने देते हैं।
         return data;
-      } else {
-        console.warn(`[Django API HTTP Error] Status ${res.status} from ${url}`);
       }
     } catch (err) {
       console.warn(`[Django API Network Warning] Cannot reach Django server at ${url}:`, err);
-    }
-
-    if (!API_CONFIG.USE_FALLBACK) {
-      console.warn('[Django API] VITE_USE_MOCK_FALLBACK is false. Returning empty results.');
-      return { count: 0, next: null, previous: null, results: [] };
     }
 
     // Fallback local implementation
@@ -109,8 +107,7 @@ class DjangoApiService {
           a.title.toLowerCase().includes(q) ||
           a.excerpt.toLowerCase().includes(q) ||
           a.category.name.toLowerCase().includes(q) ||
-          a.tags.some((t) => t.name.toLowerCase().includes(q)) ||
-          a.shortcuts?.some((s) => s.key.toLowerCase().includes(q) || s.action.toLowerCase().includes(q))
+          a.tags.some((t) => t.name.toLowerCase().includes(q))
       );
     }
 
@@ -289,8 +286,8 @@ class DjangoApiService {
       console.warn('[Django API] Error posting comment:', err);
     }
 
-    const numArticleId = typeof data.articleId === 'number' 
-      ? data.articleId 
+    const numArticleId = typeof data.articleId === 'number'
+      ? data.articleId
       : (this.articles.find((a) => a.slug === data.articleId)?.id || 1);
 
     const newComment: ArticleComment = {
