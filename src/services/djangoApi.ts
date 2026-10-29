@@ -1,11 +1,4 @@
-/**
- * Django REST Framework (DRF) Client & Local-to-Production Adapter
- * 
- * जब आप बाद में लोकल में Django चलाएंगे:
- * - यह सर्विस स्वचालित रूप से आपके लोकल Django API (http://127.0.0.1:8000/api/v1) से डेटा लाएगी।
- * - जब तक लोकल Django बैकएंड ऑफलाइन रहेगा, यह अपने आप आंतरिक डेटा का उपयोग करेगा ताकि ब्लॉग बिना रुकावट के चले।
- */
-
+// src/services/djangoApi.ts
 import { Article, ArticleComment, Author, Category, DRFPaginatedResponse, Tag } from '../types/api';
 import { mockArticles, mockAuthors, mockCategories, mockComments, mockTags } from '../data/mockDjangoData';
 import { API_CONFIG } from '../config/apiConfig';
@@ -35,7 +28,7 @@ class DjangoApiService {
 
   /**
    * GET /api/v1/articles/
-   * Supports DRF query params: category, tag, search, ordering, page, page_size
+   * Supports DRF query params: category, tag, search, ordering, page, page_size, lang
    */
   async getArticles(params?: {
     category?: string;
@@ -45,6 +38,7 @@ class DjangoApiService {
     ordering?: string;
     page?: number;
     pageSize?: number;
+    language?: string; // 🔥 यह जोड़ा गया
   }): Promise<DRFPaginatedResponse<Article>> {
     const query = new URLSearchParams();
 
@@ -53,7 +47,7 @@ class DjangoApiService {
       query.set('category__slug', params.category);
     }
     if (params?.subCategory && params.subCategory !== 'सभी') {
-      query.set('sub_category', params.subCategory); // 🔥 यह जोड़ा गया
+      query.set('sub_category', params.subCategory);
     }
     if (params?.tag) {
       query.set('tag', params.tag);
@@ -63,6 +57,7 @@ class DjangoApiService {
     if (params?.ordering) query.set('ordering', params.ordering);
     if (params?.page) query.set('page', params.page.toString());
     if (params?.pageSize) query.set('page_size', params.pageSize.toString());
+    if (params?.language) query.set('lang', params.language); // 🔥 यह जोड़ा गया
 
     const url = `${API_CONFIG.BASE_URL}/articles/?${query.toString()}`;
 
@@ -71,8 +66,6 @@ class DjangoApiService {
       const res = await this.fetchWithTimeout(url);
       if (res.ok) {
         const data = await res.json();
-        // 🔥 अगर Django सर्वर चालू है लेकिन फ़िल्टर काम नहीं कर रहा, तो हम यहाँ चेक कर सकते हैं
-        // लेकिन फिलहाल हम इसे वैसे ही रहने देते हैं।
         return data;
       }
     } catch (err) {
@@ -158,9 +151,10 @@ class DjangoApiService {
   /**
    * GET /api/v1/articles/trending/
    */
-  async getTrendingArticles(limit: number = 5): Promise<Article[]> {
+  // 🔥 यहाँ language पैरामीटर जोड़ा गया
+  async getTrendingArticles(limit: number = 5, language: string = 'hi'): Promise<Article[]> {
     try {
-      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/trending/?limit=${limit}`);
+      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/trending/?limit=${limit}&lang=${language}`);
       if (res.ok) {
         const data = await res.json();
         return Array.isArray(data) ? data : data.results || [];
@@ -335,9 +329,9 @@ class DjangoApiService {
     this.newsletterSubscribers.push(email.toLowerCase());
     return { success: true, message: 'बधाई हो! आप सफलतापूर्वक टेकवाणी न्यूज़लेटर से जुड़ चुके हैं।' };
   }
+
   /**
    * GET /api/v1/pages/{slug}/
-   * Allows backend/Django Admin to manage page title, content, meta_title, meta_description
    */
   async getPageBySlug(slug: string): Promise<any | null> {
     try {
