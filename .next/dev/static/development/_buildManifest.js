@@ -1,4 +1,28 @@
 self.__BUILD_MANIFEST = {
+  "/": [
+    "static/chunks/pages/index.js"
+  ],
+  "/_error": [
+    "static/chunks/pages/_error.js"
+  ],
+  "/article/[slug]": [
+    "static/chunks/pages/article/[slug].js"
+  ],
+  "/category/[slug]": [
+    "static/chunks/pages/category/[slug].js"
+  ],
+  "/contact": [
+    "static/chunks/pages/contact.js"
+  ],
+  "/editorial-team": [
+    "static/chunks/pages/editorial-team.js"
+  ],
+  "/terms": [
+    "static/chunks/pages/terms.js"
+  ],
+  "/tools": [
+    "static/chunks/pages/tools.js"
+  ],
   "__rewrites": {
     "afterFiles": [],
     "beforeFiles": [],

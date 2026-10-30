@@ -5,7 +5,7 @@
       "destination": "https://api.techvani.co.in/sitemap.xml"
     },
     {
-      "source": "/((?!.*\\.).*)",
+      "source": "/((?!api/|assets/|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]
