@@ -2,129 +2,168 @@
 import { GetServerSideProps } from 'next';
 import { djangoApi } from '../src/services/djangoApi';
 
-const EXTERNAL_DATA_URL = 'https://techvani.co.in'; // 🔥 अपना असली डोमेन यहाँ डालें
+// ✅ www के साथ — यही final canonical host है
+const SITE_URL = 'https://www.techvani.co.in';
 
-function generateSiteMap(articles: any[], categories: any[], tags: any[]) {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     
-     <!-- 1. Static Pages -->
-     <url>
-       <loc>${EXTERNAL_DATA_URL}</loc>
-       <changefreq>daily</changefreq>
-       <priority>1.0</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/about</loc>
-       <changefreq>monthly</changefreq>
-       <priority>0.5</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/contact</loc>
-       <changefreq>monthly</changefreq>
-       <priority>0.5</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/privacy-policy</loc>
-       <changefreq>yearly</changefreq>
-       <priority>0.3</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/terms</loc>
-       <changefreq>yearly</changefreq>
-       <priority>0.3</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/editorial-team</loc>
-       <changefreq>monthly</changefreq>
-       <priority>0.5</priority>
-     </url>
-     <url>
-       <loc>${EXTERNAL_DATA_URL}/tools</loc>
-       <changefreq>weekly</changefreq>
-       <priority>0.8</priority>
-     </url>
+// ⚠️ IMPORTANT: नीचे दोनों को तब भरें जब आपके पास यह routes live हों
+// null = कोई filter नहीं (सारे DB वाले slug sitemap में जाएँगे)
+// array = सिर्फ उन slugs को sitemap में डालो जो live हैं
+// जब तक /tag/... और /category/... के pages नहीं बने, इन्हें भर दो
 
-     <!-- 2. Dynamic Categories -->
-     ${categories
-       .map((category) => {
-         return `
-       <url>
-           <loc>${EXTERNAL_DATA_URL}/category/${category.slug}</loc>
-           <changefreq>weekly</changefreq>
-           <priority>0.7</priority>
-       </url>
-     `;
-       })
-       .join('')}
+const LIVE_TAG_SLUGS: string[] | null = null;
+// उदाहरण: ['python', 'javascript', 'windows11', 'excel-tricks'];
 
-     <!-- 3. Dynamic Tags -->
-     ${tags
-       .map((tag) => {
-         return `
-       <url>
-           <loc>${EXTERNAL_DATA_URL}/tag/${tag.slug}</loc>
-           <changefreq>weekly</changefreq>
-           <priority>0.6</priority>
-       </url>
-     `;
-       })
-       .join('')}
+const LIVE_CATEGORY_SLUGS: string[] | null = null;
+// उदाहरण: ['home', 'programming', 'software', 'gadgets'];
 
-     <!-- 4. Dynamic Articles & Products -->
-     ${articles
-       .map((article) => {
-         // अगर आर्टिकल में रेटिंग है तो वह प्रोडक्ट पेज है
-         const isProduct = article.rating ? 'product' : 'article';
-         // तारीख फॉर्मेट करें (YYYY-MM-DD)
-         const lastMod = new Date().toISOString().split('T')[0]; 
-         
-         return `
-       <url>
-           <loc>${EXTERNAL_DATA_URL}/${isProduct}/${article.slug}</loc>
-           <lastmod>${lastMod}</lastmod>
-           <changefreq>daily</changefreq>
-           <priority>0.8</priority>
-       </url>
-     `;
-       })
-       .join('')}
-   </urlset>
- `;
+// ---------- helpers ----------
+
+function escapeXml(s: string): string {
+  return String(s).replace(/[<>&'"]/g, (ch) => {
+    switch (ch) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case "'": return '&apos;';
+      case '"': return '&quot;';
+      default: return ch;
+    }
+  });
 }
 
+// सिर्फ URL-safe lowercase slugs accept करो, बाकी skip
+function safeSlug(slug: unknown): string | null {
+  if (typeof slug !== 'string' || !slug) return null;
+  return /^[a-z0-9][a-z0-9\-_.]*$/i.test(slug) ? slug : null;
+}
+
+function formatLastmod(dateLike: unknown): string | undefined {
+  if (!dateLike) return undefined;
+  try {
+    const d = new Date(dateLike as any);
+    if (isNaN(d.getTime())) return undefined;
+    return d.toISOString().split('T')[0];
+  } catch {
+    return undefined;
+  }
+}
+
+// ---------- generator ----------
+
+function generateSiteMap(articles: any[], categories: any[], tags: any[]) {
+  const urls: string[] = [];
+
+  // 1. Static pages
+  const staticPaths = [
+    '/',
+    '/about',
+    '/contact',
+    '/privacy-policy',
+    '/terms',
+    '/editorial-team',
+    '/tools',
+  ];
+  for (const p of staticPaths) {
+    urls.push(
+      `\n    <url>\n      <loc>${SITE_URL}${p}</loc>\n      <changefreq>weekly</changefreq>\n      <priority>${p === '/' ? '1.0' : '0.6'}</priority>\n    </url>`
+    );
+  }
+
+  // 2. Categories (home → '/', unsafe → skip)
+  const seenCategory = new Set<string>();
+  for (const c of categories) {
+    const slug = safeSlug(c?.slug);
+    if (!slug) continue;
+    if (LIVE_CATEGORY_SLUGS && !LIVE_CATEGORY_SLUGS.includes(slug)) continue;
+
+    const path = slug === 'home' ? '' : `/category/${slug}`;
+    const loc = `${SITE_URL}${path}`;
+    if (seenCategory.has(loc)) continue;
+    seenCategory.add(loc);
+
+    urls.push(
+      `\n    <url>\n      <loc>${escapeXml(loc)}</loc>\n      <changefreq>weekly</changefreq>\n      <priority>0.7</priority>\n    </url>`
+    );
+  }
+
+  // 3. Tags (सिर्फ safe slugs, non-ASCII skip)
+  const seenTag = new Set<string>();
+  for (const t of tags) {
+    const slug = safeSlug(t?.slug);
+    if (!slug) continue;
+    if (LIVE_TAG_SLUGS && !LIVE_TAG_SLUGS.includes(slug)) continue;
+
+    const loc = `${SITE_URL}/tag/${slug}`;
+    if (seenTag.has(loc)) continue;
+    seenTag.add(loc);
+
+    urls.push(
+      `\n    <url>\n      <loc>${escapeXml(loc)}</loc>\n      <changefreq>weekly</changefreq>\n      <priority>0.6</priority>\n    </url>`
+    );
+  }
+
+  // 4. Articles + Products
+  const seenArticle = new Set<string>();
+  for (const a of articles) {
+    const slug = safeSlug(a?.slug);
+    if (!slug) continue;
+
+    // ✅ rating != null (rating 0 भी valid product है)
+    const isProduct = a?.rating != null;
+    const path = `${isProduct ? '/product' : '/article'}/${slug}`;
+    const loc = `${SITE_URL}${path}`;
+    if (seenArticle.has(loc)) continue;
+    seenArticle.add(loc);
+
+    // ✅ असली updated date, न कि आज की तारीख
+    const lastmod = formatLastmod(
+      a?.updated_at ?? a?.updatedAt ?? a?.modified ?? a?.published_at
+    );
+    const lastmodTag = lastmod ? `\n      <lastmod>${lastmod}</lastmod>` : '';
+
+    urls.push(
+      `\n    <url>\n      <loc>${escapeXml(loc)}</loc>${lastmodTag}\n      <changefreq>weekly</changefreq>\n      <priority>0.8</priority>\n    </url>`
+    );
+  }
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.join('')}\n</urlset>\n`;
+}
+
+// ---------- page ----------
+
 function SiteMap() {
-  // getServerSideProps में रिस्पॉन्स भेजा जा रहा है, इसलिए यह कंपोनेंट खाली रहेगा
   return null;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  // ✅ सही content-type + CDN cache
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=3600, stale-while-revalidate=86400'
+  );
+
   try {
-    // API से सारा डेटा फ़ेच करें
-    const articlesRes = await djangoApi.getArticles({ pageSize: 1000 }); // सारे आर्टिकल्स
-    const categories = await djangoApi.getCategories();
-    const tags = await djangoApi.getTags();
+    const [articlesRes, categories, tags] = await Promise.all([
+      djangoApi.getArticles({ pageSize: 5000 }),
+      djangoApi.getCategories(),
+      djangoApi.getTags(),
+    ]);
 
-    // अगर API फेल हो जाए, तो मॉक डेटा का इस्तेमाल करें (लेकिन djangoApi में पहले से fallback है)
-
-    // XML जनरेट करें
     const sitemap = generateSiteMap(
-      articlesRes.results || [], 
-      categories || [], 
+      articlesRes?.results || [],
+      categories || [],
       tags || []
     );
 
-    // रिस्पॉन्स को XML के रूप में सेट करें
-    res.setHeader('Content-Type', 'text/xml');
     res.write(sitemap);
     res.end();
-
-    return {
-      props: {},
-    };
+    return { props: {} };
   } catch (error) {
-    console.error("Sitemap Error:", error);
-    res.statusCode = 500;
+    console.error('Sitemap Error:', error);
+
+    // ✅ API fail हो तो भी कम से कम static pages दो — खाली 500 नहीं
+    res.write(generateSiteMap([], [], []));
     res.end();
     return { props: {} };
   }
