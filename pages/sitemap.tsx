@@ -1,5 +1,5 @@
 // pages/sitemap.tsx
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
@@ -8,10 +8,9 @@ import { djangoApi } from '../src/services/djangoApi';
 import { Article, Category } from '../src/types/api';
 import {
   SITE_URL,
-  buildSitemapEntries,
-  renderSitemapXml,
   getArticlePath,
   getCategoryPath,
+  STATIC_PATHS,
 } from '../src/utils/sitemap';
 
 interface SitemapPageProps {
@@ -20,152 +19,88 @@ interface SitemapPageProps {
 }
 
 export default function SitemapPage({ articles, categories }: SitemapPageProps) {
-  const [viewMode, setViewMode] = useState<'visual' | 'xml'>('visual');
   const { language } = useContext(LanguageContext);
 
   const staticPages = [
     { title: language === 'hi' ? 'मुख्य पृष्ठ' : 'Home', url: '/' },
-    { title: language === 'hi' ? 'हमारे बारे में' : 'About Us', url: '/about' },
-    { title: language === 'hi' ? 'संपर्क करें' : 'Contact Us', url: '/contact' },
-    { title: language === 'hi' ? 'गोपनीयता नीति' : 'Privacy Policy', url: '/privacy-policy' },
-    { title: language === 'hi' ? 'नियम और शर्तें' : 'Terms of Service', url: '/terms' },
+    { title: language === 'hi' ? 'हमारे बारे में' : 'About', url: '/about' },
+    { title: language === 'hi' ? 'संपर्क' : 'Contact', url: '/contact' },
+    { title: language === 'hi' ? 'प्राइवेसी पॉलिसी' : 'Privacy Policy', url: '/privacy-policy' },
+    { title: language === 'hi' ? 'नियम और शर्तें' : 'Terms', url: '/terms' },
     { title: language === 'hi' ? 'संपादकीय टीम' : 'Editorial Team', url: '/editorial-team' },
-    { title: language === 'hi' ? 'ऑनलाइन टूल्स' : 'Online Tools', url: '/tools' },
+    { title: language === 'hi' ? 'ऑनलाइन टूल्स' : 'Tools', url: '/tools' },
   ];
-
-  const xmlContent = renderSitemapXml(buildSitemapEntries(articles, categories));
 
   return (
     <>
       <Head>
-        <title>{language === 'hi' ? 'साइटमैप (Sitemap) – टेकवाणी' : 'Sitemap - TechVani'}</title>
-        <meta
-          name="description"
-          content="टेकवाणी के सभी पेजों, लेखों और श्रेणियों की सम्पूर्ण सूची।"
-        />
+        <title>{language === 'hi' ? 'साइटमैप – टेकवाणी' : 'Sitemap - TechVani'}</title>
+        <meta name="description" content="टेकवाणी के सभी पेजों और लेखों की सूची।" />
         <link rel="canonical" href={`${SITE_URL}/sitemap`} />
       </Head>
 
       <div className="max-w-4xl mx-auto px-4 py-10">
-        <div className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6 flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <span className="text-xs uppercase font-bold text-[#bb010d] tracking-wider">
-              Google Search Console / SEO
-            </span>
-            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">
-              {language === 'hi' ? 'वेबसाइट साइटमैप' : 'Website Sitemap'}
-            </h1>
-            <p className="text-xs text-gray-500 mt-1">
-              {language === 'hi'
-                ? 'खोज इंजनों और पाठकों के लिए संपूर्ण पेज अनुक्रमणिका'
-                : 'Complete page index for search engines and readers'}
-            </p>
-          </div>
+        <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
+          {language === 'hi' ? 'वेबसाइट साइटमैप' : 'Website Sitemap'}
+        </h1>
+        <p className="text-sm text-gray-500 mb-8">
+          {language === 'hi'
+            ? 'सभी पेजों की पूरी सूची'
+            : 'Complete page index'}
+        </p>
 
-          <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
-            <button
-              onClick={() => setViewMode('visual')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                viewMode === 'visual'
-                  ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              {language === 'hi' ? 'विज़ुअल लिस्ट' : 'Visual List'}
-            </button>
-            <button
-              onClick={() => setViewMode('xml')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                viewMode === 'xml'
-                  ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              sitemap.xml
-            </button>
-          </div>
+        {/* Static Pages */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mb-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            {language === 'hi' ? 'मुख्य पेज' : 'Main Pages'}
+          </h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {staticPages.map((page) => (
+              <li key={page.url}>
+                <Link href={page.url} className="text-gray-700 hover:text-[#bb010d] font-medium">
+                  → {page.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {viewMode === 'visual' ? (
-          <div className="space-y-8">
-            <div className="bg-white dark:bg-[#131b22] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#bb010d]">web</span>
-                {language === 'hi' ? 'मुख्य पृष्ठ एवं नीतियां' : 'Main Pages & Policies'}
-              </h3>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                {staticPages.map((page) => (
-                  <li key={page.url}>
-                    <Link
-                      href={page.url}
-                      className="text-gray-700 dark:text-gray-300 hover:text-[#bb010d] font-medium flex items-center gap-1.5"
-                    >
-                      <span className="material-symbols-outlined text-[16px] text-gray-400">
-                        arrow_right
-                      </span>
-                      {page.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {categories.length > 0 && (
-              <div className="bg-white dark:bg-[#131b22] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#bb010d]">category</span>
-                  {language === 'hi' ? 'श्रेणियां (Categories)' : 'Categories'}
-                </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                  {categories.map((c) => (
-                    <li key={c.slug}>
-                      <Link
-                        href={getCategoryPath(c)}
-                        className="text-gray-700 dark:text-gray-300 hover:text-[#bb010d] font-medium flex items-center gap-1.5"
-                      >
-                        <span className="material-symbols-outlined text-[16px] text-gray-400">
-                          folder
-                        </span>
-                        {c.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div className="bg-white dark:bg-[#131b22] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#bb010d]">article</span>
-                {language === 'hi'
-                  ? `सभी प्रकाशित लेख (${articles.length})`
-                  : `All Published Articles (${articles.length})`}
-              </h3>
-              <ul className="space-y-2.5 text-xs sm:text-sm">
-                {articles.map((a) => (
-                  <li
-                    key={a.id}
-                    className="border-b border-gray-100 dark:border-gray-800/60 pb-2"
-                  >
-                    <Link
-                      href={getArticlePath(a)}
-                      className="text-left text-gray-700 dark:text-gray-300 hover:text-[#bb010d] font-medium block"
-                    >
-                      <span className="text-[10px] uppercase font-bold text-[#bb010d] mr-2">
-                        [{a.category?.name}]
-                      </span>
-                      {a.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-black/90 p-5 rounded-2xl border border-gray-800 font-mono text-xs text-emerald-400 overflow-x-auto">
-            <pre>{xmlContent}</pre>
+        {/* Categories */}
+        {categories.length > 0 && (
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mb-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">
+              {language === 'hi' ? 'श्रेणियां' : 'Categories'}
+            </h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              {categories.map((c) => (
+                <li key={c.slug}>
+                  <Link href={getCategoryPath(c)} className="text-gray-700 hover:text-[#bb010d] font-medium">
+                    → {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
+
+        {/* Articles */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            {language === 'hi' ? `सभी लेख (${articles.length})` : `All Articles (${articles.length})`}
+          </h2>
+          <ul className="space-y-2 text-sm">
+            {articles.map((a) => (
+              <li key={a.id} className="border-b border-gray-100 pb-2">
+                <Link href={getArticlePath(a)} className="text-gray-700 hover:text-[#bb010d]">
+                  <span className="text-[10px] uppercase font-bold text-[#bb010d] mr-2">
+                    [{a.category?.name}]
+                  </span>
+                  {a.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
@@ -173,8 +108,10 @@ export default function SitemapPage({ articles, categories }: SitemapPageProps) 
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const articlesRes = await djangoApi.getArticles({ pageSize: 1000 });
-    const categories = await djangoApi.getCategories();
+    const [articlesRes, categories] = await Promise.all([
+      djangoApi.getArticles({ pageSize: 1000 }),
+      djangoApi.getCategories(),
+    ]);
 
     return {
       props: {
@@ -185,10 +122,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   } catch (error) {
     console.error('Sitemap Page Error:', error);
     return {
-      props: {
-        articles: [],
-        categories: [],
-      },
+      props: { articles: [], categories: [] },
     };
   }
 };

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 40, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/jayra/Downloads/TechvaniBlog/pages/_document.tsx"],"sourcesContent":["// pages/_document.tsx\r\nimport { Html, Head, Main, NextScript } from 'next/document';\r\n\r\nexport default function Document() {\r\n  return (\r\n    <Html lang=\"hi\">\r\n      <Head>\r\n        <link\r\n          href=\"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0\"\r\n          rel=\"stylesheet\"\r\n        />\r\n        <link rel=\"icon\" href=\"/favicon.ico\" sizes=\"any\" />\r\n      </Head>\r\n      <body>\r\n        <Main />\r\n        <NextScript />\r\n      </body>\r\n    </Html>\r\n  );\r\n}"],"names":["Document","lang","href","rel","sizes"],"mappings":";;;;;AAAA,sBAAsB;AACtB;;;AAEe,SAASA;IACtB,qBACE,qKAAC,iIAAI;QAACC,MAAK;;0BACT,qKAAC,iIAAI;;kCACH,qKAAC;wBACCC,MAAK;wBACLC,KAAI;;;;;;kCAEN,qKAAC;wBAAKA,KAAI;wBAAOD,MAAK;wBAAeE,OAAM;;;;;;;;;;;;0BAE7C,qKAAC;;kCACC,qKAAC,iIAAI;;;;;kCACL,qKAAC,uIAAU;;;;;;;;;;;;;;;;;AAInB"}}]
+}

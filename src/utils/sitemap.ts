@@ -1,7 +1,6 @@
 // src/utils/sitemap.ts
 import { Article, Category } from '../types/api';
 
-// ⚠️ हमेशा www के साथ — सर्वर non-www → www पर 308 करता है
 export const SITE_URL = 'https://www.techvani.co.in';
 
 export interface SitemapEntry {
@@ -43,6 +42,10 @@ export function escapeXml(s: string): string {
   });
 }
 
+function isValidSlug(slug: unknown): slug is string {
+  return typeof slug === 'string' && slug.length > 0 && /^[a-z0-9\-_]+$/i.test(slug);
+}
+
 function getLastmod(a: Article): string | undefined {
   const raw = (a as any).updated_at ?? (a as any).updatedAt ?? (a as any).modified;
   if (!raw) return undefined;
@@ -53,12 +56,17 @@ function getLastmod(a: Article): string | undefined {
   }
 }
 
+// ✅ null = सभी real categories use करो (कोई filter नहीं)
+// अगर कुछ categories 404 दे रही हों, तो उनके slugs की array बना दो
+export const LIVE_CATEGORY_SLUGS: string[] | null = null;
+
 export function buildSitemapEntries(
   articles: Article[],
   categories: Category[]
 ): SitemapEntry[] {
   const entries: SitemapEntry[] = [];
 
+  // 1. Static pages (7)
   for (const path of STATIC_PATHS) {
     entries.push({
       loc: `${SITE_URL}${path}`,
@@ -67,8 +75,12 @@ export function buildSitemapEntries(
     });
   }
 
+  // 2. Categories (real only, no hardcoded filter)
   for (const c of categories) {
-    if (!c.slug) continue;
+    if (!isValidSlug(c.slug)) continue;
+    if (c.slug === 'home') continue;
+    if (LIVE_CATEGORY_SLUGS && !LIVE_CATEGORY_SLUGS.includes(c.slug)) continue;
+
     entries.push({
       loc: `${SITE_URL}${getCategoryPath(c)}`,
       changefreq: 'weekly',
@@ -76,8 +88,11 @@ export function buildSitemapEntries(
     });
   }
 
+  // 3. Articles + Products (real only)
   for (const a of articles) {
-    if (!a.slug) continue;
+    if (!isValidSlug(a.slug)) continue;
+    if ((a as any).status && (a as any).status !== 'published') continue;
+
     entries.push({
       loc: `${SITE_URL}${getArticlePath(a)}`,
       lastmod: getLastmod(a),
@@ -86,6 +101,7 @@ export function buildSitemapEntries(
     });
   }
 
+  // 4. Dedupe
   const seen = new Set<string>();
   return entries.filter((e) => {
     if (seen.has(e.loc)) return false;

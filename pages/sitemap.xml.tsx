@@ -37,12 +37,22 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   let apiOk = true;
 
   try {
-    const [articlesRes, cats] = await Promise.all([
-      djangoApi.getArticles({ pageSize: 5000 }),
-      djangoApi.getCategories(),
+    // ✅ नए methods — mock fallback नहीं
+    const [articlesData, catsData] = await Promise.all([
+      djangoApi.getArticlesForSitemap(),
+      djangoApi.getCategoriesForSitemap(),
     ]);
-    articles = Array.isArray(articlesRes?.results) ? articlesRes.results : [];
-    categories = Array.isArray(cats) ? cats : [];
+    articles = articlesData;
+    categories = catsData;
+
+    if (articles.length === 0 && categories.length === 0) {
+      console.warn('[sitemap.xml] API returned empty — using static only');
+      apiOk = false;
+    }
+
+    console.log(
+      `[sitemap.xml] articles: ${articles.length}, categories: ${categories.length}`
+    );
   } catch (err) {
     console.error('[sitemap.xml] API failed:', err);
     apiOk = false;

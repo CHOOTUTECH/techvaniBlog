@@ -127,41 +127,70 @@ class DjangoApiService {
   }
 
   /**
+   * ✅ Sitemap के लिए — सिर्फ real API data, कोई mock fallback नहीं
+   */
+  async getArticlesForSitemap(): Promise<Article[]> {
+    try {
+      const res = await this.fetchWithTimeout(
+        `${API_CONFIG.BASE_URL}/articles/?page_size=5000`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.results || [];
+        console.log(`[Sitemap] ${list.length} articles fetched from API`);
+        return list;
+      }
+    } catch (err) {
+      console.error('[Sitemap] articles API failed:', err);
+    }
+    return [];
+  }
+
+  /**
+   * ✅ Sitemap के लिए — सिर्फ real categories
+   */
+  async getCategoriesForSitemap(): Promise<Category[]> {
+    try {
+      const res = await this.fetchWithTimeout(
+        `${API_CONFIG.BASE_URL}/categories/`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.results || [];
+        console.log(`[Sitemap] ${list.length} categories fetched from API`);
+        return list;
+      }
+    } catch (err) {
+      console.error('[Sitemap] categories API failed:', err);
+    }
+    return [];
+  }
+
+  /**
    * GET /api/v1/articles/{slug}/
-   * Fallback chain:
-   *   1. /articles/{slug}/  — normal article
-   *   2. /products/{slug}/  — product (Django अलग endpoint use करता है तो)
-   *   3. local mock articles — development/offline fallback
    */
   async getArticleBySlug(slug: string): Promise<Article | null> {
-    // Step 1: articles endpoint
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/${slug}/`);
       if (res.ok) {
         return await res.json();
       }
     } catch (err) {
-      console.warn(`[Django API] Could not fetch article "${slug}" from /articles/:`, err);
+      console.warn(`[Django API] Could not fetch article "${slug}":`, err);
     }
 
-    // Step 2: products endpoint (कुछ Django setups products को अलग रखते हैं)
+    // Products endpoint try करो
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/products/${slug}/`);
       if (res.ok) {
         const data = await res.json();
-        // Product data — rating null हो तो भी product मानें
         if (data && typeof data === 'object') {
-          if (data.rating == null) {
-            data.rating = 0;
-          }
+          if (data.rating == null) data.rating = 0;
           return data as Article;
         }
       }
-    } catch (err) {
-      console.warn(`[Django API] Could not fetch "${slug}" from /products/:`, err);
-    }
+    } catch {}
 
-    // Step 3: local fallback
     if (!API_CONFIG.USE_FALLBACK) {
       return null;
     }
@@ -172,12 +201,8 @@ class DjangoApiService {
 
   /**
    * GET /api/v1/products/{slug}/
-   * Fallback chain:
-   *   1. /products/{slug}/  — product detail
-   *   2. local mock articles में rating != null वाला item
    */
   async getProductBySlug(slug: string): Promise<Article | null> {
-    // Step 1: products endpoint
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/products/${slug}/`);
       if (res.ok) {
@@ -187,14 +212,11 @@ class DjangoApiService {
       console.warn(`[Django API] Could not fetch product "${slug}":`, err);
     }
 
-    // Step 2: local fallback — सिर्फ rating वाले articles products हैं
     if (!API_CONFIG.USE_FALLBACK) {
       return null;
     }
 
-    const product = this.articles.find(
-      (a) => a.slug === slug && a.rating != null
-    );
+    const product = this.articles.find((a) => a.slug === slug && a.rating != null);
     return product || null;
   }
 
@@ -246,7 +268,6 @@ class DjangoApiService {
 
   /**
    * GET /api/v1/categories/{slug}/
-   * Fallback: mockCategories से match
    */
   async getCategoryBySlug(slug: string): Promise<Category | null> {
     try {
@@ -289,7 +310,6 @@ class DjangoApiService {
 
   /**
    * GET /api/v1/tags/{slug}/
-   * Fallback: mockTags से match
    */
   async getTagBySlug(slug: string): Promise<Tag | null> {
     try {
@@ -363,9 +383,7 @@ class DjangoApiService {
         `${API_CONFIG.BASE_URL}/articles/${data.articleId}/comments/`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             authorName: data.authorName,
             authorEmail: data.authorEmail,
@@ -397,9 +415,7 @@ class DjangoApiService {
     this.comments.unshift(newComment);
 
     const article = this.articles.find((a) => a.id === numArticleId);
-    if (article) {
-      article.commentsCount += 1;
-    }
+    if (article) article.commentsCount += 1;
 
     return newComment;
   }
@@ -417,12 +433,8 @@ class DjangoApiService {
         method: 'POST',
         body: JSON.stringify({ email }),
       });
-      if (res.ok) {
-        return await res.json();
-      }
-    } catch {
-      // Fallback
-    }
+      if (res.ok) return await res.json();
+    } catch {}
 
     if (this.newsletterSubscribers.includes(email.toLowerCase())) {
       return { success: true, message: 'आप पहले से ही हमारे न्यूज़लेटर के सदस्य हैं!' };
@@ -440,12 +452,8 @@ class DjangoApiService {
   async getPageBySlug(slug: string): Promise<any | null> {
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/pages/${slug}/`);
-      if (res.ok) {
-        return await res.json();
-      }
-    } catch {
-      // Fallback
-    }
+      if (res.ok) return await res.json();
+    } catch {}
     return null;
   }
 }

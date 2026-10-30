@@ -322,8 +322,15 @@ export default function HomePage({ initialArticles, initialTrendingArticles }: H
                     </h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {['Python', 'JavaScript', 'Windows11', 'ExcelTricks', 'VSCode', 'Linux'].map((tag) => (
-                      <Link key={tag} href={`/tag/${tag.toLowerCase()}`} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-[#bb010d] hover:text-white px-3 py-1.5 rounded-lg transition-colors font-medium">#{tag}</Link>
+                    {[
+                      { name: 'Python', slug: 'python' },
+                      { name: 'JavaScript', slug: 'javascript' },
+                      { name: 'Windows 11', slug: 'windows-11' },
+                      { name: 'Excel', slug: 'excel-tricks' },
+                      { name: 'VS Code', slug: 'vs-code' },
+                      { name: 'Linux', slug: 'linux' },
+                    ].map((tag) => (
+                      <Link key={tag.slug} href={`/tag/${tag.slug}`} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-[#bb010d] hover:text-white px-3 py-1.5 rounded-lg transition-colors font-medium">#{tag.name}</Link>
                     ))}
                   </div>
                 </div>
@@ -342,8 +349,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const lang = context.req.cookies.techvani_lang || 'hi';
 
   try {
-    const res = await djangoApi.getArticles({ pageSize: 20, language: lang });
-    const trending = await djangoApi.getTrendingArticles(5, lang);
+    const [res, trending] = await Promise.all([
+      djangoApi.getArticles({ pageSize: 20, language: lang }),
+      djangoApi.getTrendingArticles(5, lang),
+    ]);
     
     return {
       props: {
