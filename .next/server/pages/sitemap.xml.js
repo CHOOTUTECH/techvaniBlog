@@ -1,9 +1,0 @@
-var R=require("../chunks/ssr/[turbopack]_runtime.js")("server/pages/sitemap.xml.js")
-R.c("server/chunks/ssr/src_utils_sitemap_ts_1dmep6sj8hdyi._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0b-la2m8xofs3._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_pages_1xmicnn1f47qf.js")
-R.c("server/chunks/ssr/[root-of-the-server]__03mfte8yy-1p4._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__10y68su2732ra._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0v401f4r6xcyb._.js")
-R.m(4867)
-module.exports=R.m(4867).exports

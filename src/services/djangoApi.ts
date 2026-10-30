@@ -38,7 +38,7 @@ class DjangoApiService {
     ordering?: string;
     page?: number;
     pageSize?: number;
-    language?: string; // 🔥 यह जोड़ा गया
+    language?: string;
   }): Promise<DRFPaginatedResponse<Article>> {
     const query = new URLSearchParams();
 
@@ -57,11 +57,10 @@ class DjangoApiService {
     if (params?.ordering) query.set('ordering', params.ordering);
     if (params?.page) query.set('page', params.page.toString());
     if (params?.pageSize) query.set('page_size', params.pageSize.toString());
-    if (params?.language) query.set('lang', params.language); // 🔥 यह जोड़ा गया
+    if (params?.language) query.set('lang', params.language);
 
     const url = `${API_CONFIG.BASE_URL}/articles/?${query.toString()}`;
 
-    // Try calling real Django REST API if available
     try {
       const res = await this.fetchWithTimeout(url);
       if (res.ok) {
@@ -129,17 +128,40 @@ class DjangoApiService {
 
   /**
    * GET /api/v1/articles/{slug}/
+   * Fallback chain:
+   *   1. /articles/{slug}/  — normal article
+   *   2. /products/{slug}/  — product (Django अलग endpoint use करता है तो)
+   *   3. local mock articles — development/offline fallback
    */
   async getArticleBySlug(slug: string): Promise<Article | null> {
+    // Step 1: articles endpoint
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/${slug}/`);
       if (res.ok) {
         return await res.json();
       }
     } catch (err) {
-      console.warn(`[Django API] Could not fetch article "${slug}":`, err);
+      console.warn(`[Django API] Could not fetch article "${slug}" from /articles/:`, err);
     }
 
+    // Step 2: products endpoint (कुछ Django setups products को अलग रखते हैं)
+    try {
+      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/products/${slug}/`);
+      if (res.ok) {
+        const data = await res.json();
+        // Product data — rating null हो तो भी product मानें
+        if (data && typeof data === 'object') {
+          if (data.rating == null) {
+            data.rating = 0;
+          }
+          return data as Article;
+        }
+      }
+    } catch (err) {
+      console.warn(`[Django API] Could not fetch "${slug}" from /products/:`, err);
+    }
+
+    // Step 3: local fallback
     if (!API_CONFIG.USE_FALLBACK) {
       return null;
     }
@@ -149,12 +171,41 @@ class DjangoApiService {
   }
 
   /**
+   * GET /api/v1/products/{slug}/
+   * Fallback chain:
+   *   1. /products/{slug}/  — product detail
+   *   2. local mock articles में rating != null वाला item
+   */
+  async getProductBySlug(slug: string): Promise<Article | null> {
+    // Step 1: products endpoint
+    try {
+      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/products/${slug}/`);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn(`[Django API] Could not fetch product "${slug}":`, err);
+    }
+
+    // Step 2: local fallback — सिर्फ rating वाले articles products हैं
+    if (!API_CONFIG.USE_FALLBACK) {
+      return null;
+    }
+
+    const product = this.articles.find(
+      (a) => a.slug === slug && a.rating != null
+    );
+    return product || null;
+  }
+
+  /**
    * GET /api/v1/articles/trending/
    */
-  // 🔥 यहाँ language पैरामीटर जोड़ा गया
   async getTrendingArticles(limit: number = 5, language: string = 'hi'): Promise<Article[]> {
     try {
-      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/trending/?limit=${limit}&lang=${language}`);
+      const res = await this.fetchWithTimeout(
+        `${API_CONFIG.BASE_URL}/articles/trending/?limit=${limit}&lang=${language}`
+      );
       if (res.ok) {
         const data = await res.json();
         return Array.isArray(data) ? data : data.results || [];
@@ -194,6 +245,28 @@ class DjangoApiService {
   }
 
   /**
+   * GET /api/v1/categories/{slug}/
+   * Fallback: mockCategories से match
+   */
+  async getCategoryBySlug(slug: string): Promise<Category | null> {
+    try {
+      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/categories/${slug}/`);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn(`[Django API] Could not fetch category "${slug}":`, err);
+    }
+
+    if (!API_CONFIG.USE_FALLBACK) {
+      return null;
+    }
+
+    const category = mockCategories.find((c) => c.slug === slug);
+    return category || null;
+  }
+
+  /**
    * GET /api/v1/tags/
    */
   async getTags(): Promise<Tag[]> {
@@ -212,6 +285,28 @@ class DjangoApiService {
     }
 
     return mockTags;
+  }
+
+  /**
+   * GET /api/v1/tags/{slug}/
+   * Fallback: mockTags से match
+   */
+  async getTagBySlug(slug: string): Promise<Tag | null> {
+    try {
+      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/tags/${slug}/`);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (err) {
+      console.warn(`[Django API] Could not fetch tag "${slug}":`, err);
+    }
+
+    if (!API_CONFIG.USE_FALLBACK) {
+      return null;
+    }
+
+    const tag = mockTags.find((t) => t.slug === slug);
+    return tag || null;
   }
 
   /**
@@ -240,7 +335,9 @@ class DjangoApiService {
    */
   async getComments(articleIdOrSlug: number | string): Promise<ArticleComment[]> {
     try {
-      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/${articleIdOrSlug}/comments/`);
+      const res = await this.fetchWithTimeout(
+        `${API_CONFIG.BASE_URL}/articles/${articleIdOrSlug}/comments/`
+      );
       if (res.ok) {
         const data = await res.json();
         return Array.isArray(data) ? data : data.results || [];
@@ -262,17 +359,20 @@ class DjangoApiService {
     authorEmail?: string;
   }): Promise<ArticleComment> {
     try {
-      const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/articles/${data.articleId}/comments/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          authorName: data.authorName,
-          authorEmail: data.authorEmail,
-          comment: data.comment,
-        }),
-      });
+      const res = await this.fetchWithTimeout(
+        `${API_CONFIG.BASE_URL}/articles/${data.articleId}/comments/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            authorName: data.authorName,
+            authorEmail: data.authorEmail,
+            comment: data.comment,
+          }),
+        }
+      );
       if (res.ok) {
         return await res.json();
       }
@@ -280,9 +380,10 @@ class DjangoApiService {
       console.warn('[Django API] Error posting comment:', err);
     }
 
-    const numArticleId = typeof data.articleId === 'number'
-      ? data.articleId
-      : (this.articles.find((a) => a.slug === data.articleId)?.id || 1);
+    const numArticleId =
+      typeof data.articleId === 'number'
+        ? data.articleId
+        : this.articles.find((a) => a.slug === data.articleId)?.id || 1;
 
     const newComment: ArticleComment = {
       id: Date.now(),
@@ -327,7 +428,10 @@ class DjangoApiService {
       return { success: true, message: 'आप पहले से ही हमारे न्यूज़लेटर के सदस्य हैं!' };
     }
     this.newsletterSubscribers.push(email.toLowerCase());
-    return { success: true, message: 'बधाई हो! आप सफलतापूर्वक टेकवाणी न्यूज़लेटर से जुड़ चुके हैं।' };
+    return {
+      success: true,
+      message: 'बधाई हो! आप सफलतापूर्वक टेकवाणी न्यूज़लेटर से जुड़ चुके हैं।',
+    };
   }
 
   /**
