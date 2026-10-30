@@ -1,0 +1,197 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "pages",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/article/[slug]",
+      "regex": "^/article/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/article/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/category/[slug]",
+      "regex": "^/category/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/category/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/product/[slug]",
+      "regex": "^/product/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/product/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/tag/[slug]",
+      "regex": "^/tag/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/tag/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/tools/[slug]",
+      "regex": "^/tools/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/tools/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/about",
+      "regex": "^/about(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/editorial-team",
+      "regex": "^/editorial\\-team(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/editorial\\-team(?:/)?$"
+    },
+    {
+      "page": "/privacy-policy",
+      "regex": "^/privacy\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy\\-policy(?:/)?$"
+    },
+    {
+      "page": "/sitemap",
+      "regex": "^/sitemap(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    },
+    {
+      "page": "/tools",
+      "regex": "^/tools(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/tools(?:/)?$"
+    }
+  ],
+  "dataRoutes": [
+    {
+      "page": "/",
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/index\\.json$"
+    },
+    {
+      "page": "/article/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/article/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/article/(?<nxtPslug>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/category/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/category/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/category/(?<nxtPslug>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/editorial-team",
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/editorial-team\\.json$"
+    },
+    {
+      "page": "/product/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/product/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/product/(?<nxtPslug>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/sitemap",
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/sitemap\\.json$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/sitemap.xml\\.json$"
+    },
+    {
+      "page": "/tag/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/tag/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/tag/(?<nxtPslug>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/tools/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/tools/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/2MtfVcZ6_mcoyTvYBDPOU/tools/(?<nxtPslug>[^/]+?)\\.json$"
+    }
+  ],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
