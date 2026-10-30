@@ -1,0 +1,268 @@
+{
+  "version": 4,
+  "routes": {
+    "/article/5-easy-steps-to-secure-home-wifi-network": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/5-easy-steps-to-secure-home-wifi-network.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/7-secret-windows-run-commands-speed-up-pc": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/7-secret-windows-run-commands-speed-up-pc.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/boost-old-laptop-speed-5x-with-ssd-upgrade": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/boost-old-laptop-speed-5x-with-ssd-upgrade.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/chatgpt-coding-prompts-10x-faster-software": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/chatgpt-coding-prompts-10x-faster-software.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/git-and-github-explained-beginners-guide": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/git-and-github-explained-beginners-guide.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/google-chrome-8-tab-management-shortcuts": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/google-chrome-8-tab-management-shortcuts.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/how-to-activate-god-mode-windows-11": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/how-to-activate-god-mode-windows-11.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/ms-excel-magical-shortcuts-productivity": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/ms-excel-magical-shortcuts-productivity.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/python-10-useful-one-liner-codes": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-10-useful-one-liner-codes.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/python-crash-course-2025-1-hour-complete-basics": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-crash-course-2025-1-hour-complete-basics.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/python-learn-from-scratch-2025-guide": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-learn-from-scratch-2025-guide.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/react-19-new-features-server-actions-compiler": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/react-19-new-features-server-actions-compiler.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/top-10-vs-code-extensions-developers-2025": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/top-10-vs-code-extensions-developers-2025.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/article/windows-11-25-useful-keyboard-shortcuts": {
+      "routeType": "page",
+      "response": "complete",
+      "compute": "static",
+      "initialRevalidateSeconds": 300,
+      "initialExpireSeconds": 31536000,
+      "srcRoute": "/article/[slug]",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/windows-11-25-useful-keyboard-shortcuts.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    }
+  },
+  "dynamicRoutes": {
+    "/article/[slug]": {
+      "routeRegex": "^/article/([^/]+?)(?:/)?$",
+      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/[slug].json",
+      "fallback": null,
+      "routeType": "page",
+      "response": "empty",
+      "compute": "blocking",
+      "dataRouteRegex": "^/_next/data/pbCu6CHRxdyRIemUUYmGd/article/([^/]+?)\\.json$",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    }
+  },
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "969455e111fa166a4c8e491ae7e99f1b",
+    "previewModeSigningKey": "3404facd3e95df66ee581728f10a44572c2ce62852d1906d6c153e93a914fea9",
+    "previewModeEncryptionKey": "eee3223a410e6494f8849ace4afe4da08d23da9624796b69ec8942452662b710"
+  }
+}

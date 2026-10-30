@@ -1,0 +1,11 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/pages/article/[slug].js")
+R.c("server/chunks/ssr/_0cla6o1y__3-o._.js")
+R.c("server/chunks/ssr/src_utils_markdownParser_ts_07ji-xllvbtcm._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0b-la2m8xofs3._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0wdth5rprz-xn._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_20idbr0w9qpnt._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0_wnhl_4w151t._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__1q3m4toepf-vx._.js")
+R.c("server/chunks/ssr/_0_w0dgvj56alo._.js")
+R.m(2583)
+module.exports=R.m(2583).exports

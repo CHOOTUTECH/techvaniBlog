@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,6389,(t,o,i)=>{let n="/sitemap.xml";(window.__NEXT_P=window.__NEXT_P||[]).push([n,()=>t.r(2855)]),o.hot&&o.hot.dispose(function(){window.__NEXT_P.push([n])})},2855,t=>{"use strict";t.s(["__N_SSP",0,!0,"default",0,function(){return null}])}]);
