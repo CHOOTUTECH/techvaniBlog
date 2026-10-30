@@ -1,0 +1,19 @@
+{
+  "devFiles": [],
+  "ampDevFiles": [],
+  "polyfillFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "pages": {
+    "/product/[slug]": [
+      "static/chunks/2pry_28-1901v.js",
+      "static/chunks/turbopack-3-ry682tkyiqk.js"
+    ]
+  },
+  "ampFirstPages": [],
+  "rootMainFilesTree": {},
+  "pagesChunkGroupBootstrapParams": {
+    "/product/[slug]": {"otherChunks":["static/chunks/2pry_28-1901v.js"],"runtimeModuleIds":[783,9303]}
+  },
+  "chunkLoadingGlobal": "TURBOPACK"
+}
