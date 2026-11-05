@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Footer />
       </div>
       {/* ✅ Google Analytics — return के सबसे अंदर, Provider के अंदर */}
-      <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+      <GoogleAnalytics gaId="G-RE8Z5ETMB9" />
     </LanguageContext.Provider>
   );
 }
