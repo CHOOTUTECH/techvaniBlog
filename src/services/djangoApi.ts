@@ -19,13 +19,14 @@ class DjangoApiService {
           ...API_CONFIG.DEFAULT_HEADERS,
           ...(options.headers || {}),
         },
-      });
+        // ✅ यह जोड़ो — API cache 60 sec
+        next: { revalidate: 60 },
+      } as RequestInit);
       return response;
     } finally {
       clearTimeout(id);
     }
   }
-
   /**
    * GET /api/v1/articles/
    * Supports DRF query params: category, tag, search, ordering, page, page_size, lang
@@ -189,7 +190,7 @@ class DjangoApiService {
           return data as Article;
         }
       }
-    } catch {}
+    } catch { }
 
     if (!API_CONFIG.USE_FALLBACK) {
       return null;
@@ -434,7 +435,7 @@ class DjangoApiService {
         body: JSON.stringify({ email }),
       });
       if (res.ok) return await res.json();
-    } catch {}
+    } catch { }
 
     if (this.newsletterSubscribers.includes(email.toLowerCase())) {
       return { success: true, message: 'आप पहले से ही हमारे न्यूज़लेटर के सदस्य हैं!' };
@@ -453,7 +454,7 @@ class DjangoApiService {
     try {
       const res = await this.fetchWithTimeout(`${API_CONFIG.BASE_URL}/pages/${slug}/`);
       if (res.ok) return await res.json();
-    } catch {}
+    } catch { }
     return null;
   }
 }

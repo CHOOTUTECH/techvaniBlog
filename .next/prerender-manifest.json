@@ -8,7 +8,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/5-easy-steps-to-secure-home-wifi-network.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/5-easy-steps-to-secure-home-wifi-network.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -25,7 +25,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/7-secret-windows-run-commands-speed-up-pc.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/7-secret-windows-run-commands-speed-up-pc.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -42,7 +42,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/boost-old-laptop-speed-5x-with-ssd-upgrade.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/boost-old-laptop-speed-5x-with-ssd-upgrade.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -59,7 +59,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/chatgpt-coding-prompts-10x-faster-software.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/chatgpt-coding-prompts-10x-faster-software.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -76,7 +76,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/git-and-github-explained-beginners-guide.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/git-and-github-explained-beginners-guide.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -93,7 +93,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/google-chrome-8-tab-management-shortcuts.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/google-chrome-8-tab-management-shortcuts.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -110,7 +110,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/how-to-activate-god-mode-windows-11.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/how-to-activate-god-mode-windows-11.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -127,7 +127,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/ms-excel-magical-shortcuts-productivity.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/ms-excel-magical-shortcuts-productivity.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -144,7 +144,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-10-useful-one-liner-codes.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/python-10-useful-one-liner-codes.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -161,7 +161,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-crash-course-2025-1-hour-complete-basics.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/python-crash-course-2025-1-hour-complete-basics.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -178,7 +178,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/python-learn-from-scratch-2025-guide.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/python-learn-from-scratch-2025-guide.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -195,7 +195,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/react-19-new-features-server-actions-compiler.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/react-19-new-features-server-actions-compiler.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -212,7 +212,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/top-10-vs-code-extensions-developers-2025.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/top-10-vs-code-extensions-developers-2025.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -229,7 +229,7 @@
       "initialRevalidateSeconds": 300,
       "initialExpireSeconds": 31536000,
       "srcRoute": "/article/[slug]",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/windows-11-25-useful-keyboard-shortcuts.json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/windows-11-25-useful-keyboard-shortcuts.json",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -243,12 +243,12 @@
   "dynamicRoutes": {
     "/article/[slug]": {
       "routeRegex": "^/article/([^/]+?)(?:/)?$",
-      "dataRoute": "/_next/data/pbCu6CHRxdyRIemUUYmGd/article/[slug].json",
+      "dataRoute": "/_next/data/31lJMR2uJVeEAGVz7rt77/article/[slug].json",
       "fallback": null,
       "routeType": "page",
       "response": "empty",
       "compute": "blocking",
-      "dataRouteRegex": "^/_next/data/pbCu6CHRxdyRIemUUYmGd/article/([^/]+?)\\.json$",
+      "dataRouteRegex": "^/_next/data/31lJMR2uJVeEAGVz7rt77/article/([^/]+?)\\.json$",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -261,8 +261,8 @@
   },
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "969455e111fa166a4c8e491ae7e99f1b",
-    "previewModeSigningKey": "3404facd3e95df66ee581728f10a44572c2ce62852d1906d6c153e93a914fea9",
-    "previewModeEncryptionKey": "eee3223a410e6494f8849ace4afe4da08d23da9624796b69ec8942452662b710"
+    "previewModeId": "eac2f41698321bd827126188e6b50a90",
+    "previewModeSigningKey": "144d761edcb90338ed2a241c7f823312e525a2d7aab0a844f12ffb96ef71a7a3",
+    "previewModeEncryptionKey": "2f8523b4df38aa8285d0d1dbe03677ddbac1d7be9648a4907d7572e63c821c33"
   }
 }

@@ -2,6 +2,7 @@
 import '../src/index.css';
 import type { AppProps } from 'next/app';
 import React, { useState, useEffect, useCallback } from 'react';
+import { GoogleAnalytics } from '@next/third-parties/google';  // ✅ यह नया import
 import { Header } from '../src/components/Header';
 import { Footer } from '../src/components/Footer';
 import { LanguageContext } from '../src/context/AppContext';
@@ -9,7 +10,6 @@ import { LanguageContext } from '../src/context/AppContext';
 export default function App({ Component, pageProps }: AppProps) {
   const [language, setLanguage] = useState<'hi' | 'en'>('hi');
 
-  // Language load
   useEffect(() => {
     try {
       const saved = localStorage.getItem('techvani-lang');
@@ -17,7 +17,6 @@ export default function App({ Component, pageProps }: AppProps) {
     } catch {}
   }, []);
 
-  // Language save
   useEffect(() => {
     try {
       localStorage.setItem('techvani-lang', language);
@@ -38,6 +37,8 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
         <Footer />
       </div>
+      {/* ✅ Google Analytics — return के सबसे अंदर, Provider के अंदर */}
+      <GoogleAnalytics gaId="G-XXXXXXXXXX" />
     </LanguageContext.Provider>
   );
 }

@@ -95,12 +95,16 @@ self.__SERVER_FILES_MANIFEST={
         {
           "protocol": "https",
           "hostname": "images.unsplash.com"
+        },
+        {
+          "protocol": "https",
+          "hostname": "**.amazonaws.com"
         }
       ],
       "qualities": [
         75
       ],
-      "unoptimized": true,
+      "unoptimized": false,
       "customCacheHandler": false
     },
     "devIndicators": {
