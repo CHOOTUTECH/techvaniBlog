@@ -5,13 +5,40 @@ import { LanguageContext } from '../context/AppContext';
 import { djangoApi } from '../services/djangoApi';
 import { Category, Article } from '../types/api';
 
+// ✅ Fallback trending — अगर API fail हो तो भी कुछ दिखे
+const FALLBACK_TRENDING = [
+  {
+    slug: 'windows-11-25-useful-keyboard-shortcuts',
+    titleHi: 'Windows 11 के 25 सबसे उपयोगी कीबोर्ड शॉर्टकट्स',
+    titleEn: '25 Useful Windows 11 Keyboard Shortcuts',
+  },
+  {
+    slug: 'git-and-github-explained-beginners-guide',
+    titleHi: 'Git और GitHub कैसे काम करते हैं',
+    titleEn: 'How Git and GitHub Work',
+  },
+  {
+    slug: 'python-learn-from-scratch-2025-guide',
+    titleHi: 'पायथन 2025 में स्क्रैच से सीखें',
+    titleEn: 'Learn Python from Scratch 2025',
+  },
+];
+
+const FALLBACK_CATEGORIES = [
+  { slug: 'programming', name: 'प्रोग्रामिंग' },
+  { slug: 'keyboard-shortcuts', name: 'कीबोर्ड शॉर्टकट्स' },
+  { slug: 'computer-tricks', name: 'कंप्यूटर ट्रिक्स' },
+  { slug: 'gadgets', name: 'गैजेट्स' },
+  { slug: 'software', name: 'सॉफ्टवेयर' },
+];
+
 export const Header: React.FC = () => {
   const { language, toggleLanguage } = useContext(LanguageContext);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [categories, setCategories] = useState<Category[]>([]);
   const [trending, setTrending] = useState<Article[]>([]);
 
-  // ✅ Real categories fetch
+  // Categories fetch
   useEffect(() => {
     djangoApi
       .getCategories()
@@ -19,7 +46,7 @@ export const Header: React.FC = () => {
       .catch(() => setCategories([]));
   }, []);
 
-  // ✅ Real trending fetch
+  // Trending fetch
   useEffect(() => {
     djangoApi
       .getTrendingArticles(4, language)
@@ -47,11 +74,24 @@ export const Header: React.FC = () => {
     );
   }, [language]);
 
-  // ✅ Real trending articles से links — अगर खाली हैं तो कुछ नहीं दिखेगा
-  const trendingTopics = trending.map((a) => ({
-    text: a.title,
-    link: a.rating != null ? `/product/${a.slug}` : `/article/${a.slug}`,
-  }));
+  // ✅ अगर API से trending आया → वो use करो
+  // अगर नहीं → fallback use करो
+  const trendingTopics =
+    trending.length > 0
+      ? trending.map((a) => ({
+          text: a.title,
+          link: a.rating != null ? `/product/${a.slug}` : `/article/${a.slug}`,
+        }))
+      : FALLBACK_TRENDING.map((t) => ({
+          text: language === 'hi' ? t.titleHi : t.titleEn,
+          link: `/article/${t.slug}`,
+        }));
+
+  // ✅ Categories: API से आईं या fallback
+  const displayCategories =
+    categories.length > 0
+      ? categories.filter((c) => c.slug !== 'home')
+      : FALLBACK_CATEGORIES;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#f6faff]/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.06)] border-b border-gray-200">
@@ -85,36 +125,35 @@ export const Header: React.FC = () => {
             </span>
           </Link>
 
-          {trendingTopics.length > 0 && (
-            <div className="hidden lg:flex items-center flex-1 mx-8 overflow-hidden relative">
-              <span className="bg-[#bb010d] text-white text-[11px] px-2.5 py-1 rounded font-bold uppercase tracking-wider shrink-0 z-10 mr-3 shadow-sm">
-                {language === 'hi' ? 'ट्रेंडिंग' : 'TRENDING'}
-              </span>
+          {/* Ticker — अब हमेशा दिखेगा (fallback के साथ) */}
+          <div className="hidden lg:flex items-center flex-1 mx-8 overflow-hidden relative">
+            <span className="bg-[#bb010d] text-white text-[11px] px-2.5 py-1 rounded font-bold uppercase tracking-wider shrink-0 z-10 mr-3 shadow-sm">
+              {language === 'hi' ? 'ट्रेंडिंग' : 'TRENDING'}
+            </span>
 
-              <div className="overflow-hidden flex-1 relative">
-                <div className="animate-marquee flex gap-8 w-max">
-                  {trendingTopics.map((topic, idx) => (
-                    <Link
-                      key={`a-${idx}`}
-                      href={topic.link}
-                      className="text-sm font-medium text-gray-700 hover:text-[#bb010d] whitespace-nowrap transition-colors"
-                    >
-                      • {topic.text}
-                    </Link>
-                  ))}
-                  {trendingTopics.map((topic, idx) => (
-                    <Link
-                      key={`b-${idx}`}
-                      href={topic.link}
-                      className="text-sm font-medium text-gray-700 hover:text-[#bb010d] whitespace-nowrap transition-colors"
-                    >
-                      • {topic.text}
-                    </Link>
-                  ))}
-                </div>
+            <div className="overflow-hidden flex-1 relative">
+              <div className="animate-marquee flex gap-8 w-max">
+                {trendingTopics.map((topic, idx) => (
+                  <Link
+                    key={`a-${idx}`}
+                    href={topic.link}
+                    className="text-sm font-medium text-gray-700 hover:text-[#bb010d] whitespace-nowrap transition-colors"
+                  >
+                    • {topic.text}
+                  </Link>
+                ))}
+                {trendingTopics.map((topic, idx) => (
+                  <Link
+                    key={`b-${idx}`}
+                    href={topic.link}
+                    className="text-sm font-medium text-gray-700 hover:text-[#bb010d] whitespace-nowrap transition-colors"
+                  >
+                    • {topic.text}
+                  </Link>
+                ))}
               </div>
             </div>
-          )}
+          </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
@@ -136,25 +175,19 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Tier 3: Categories — real API */}
+      {/* Tier 3: Categories — अब हमेशा भरा */}
       <div className="bg-[#141d23] text-white">
         <div className="max-w-[1280px] mx-auto px-4">
           <nav className="flex items-center gap-1 overflow-x-auto py-1.5">
-            {categories.length === 0 ? (
-              <span className="text-gray-400 text-xs px-3 py-1.5">
-                {language === 'hi' ? 'लोड हो रहा...' : 'Loading...'}
-              </span>
-            ) : (
-              categories.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={cat.slug === 'home' ? '/' : `/category/${cat.slug}`}
-                  className="px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap font-medium text-gray-200 hover:text-white hover:bg-white/10"
-                >
-                  {cat.name}
-                </Link>
-              ))
-            )}
+            {displayCategories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={cat.slug === 'home' ? '/' : `/category/${cat.slug}`}
+                className="px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap font-medium text-gray-200 hover:text-white hover:bg-white/10"
+              >
+                {cat.name}
+              </Link>
+            ))}
             <Link
               href="/tools"
               className="px-3 py-1.5 rounded text-xs md:text-sm whitespace-nowrap font-medium text-gray-200 hover:text-white hover:bg-white/10"

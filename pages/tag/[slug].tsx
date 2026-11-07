@@ -1,106 +1,159 @@
 // pages/tag/[slug].tsx
-import React, { useContext } from 'react';
-import { LanguageContext } from '../../src/context/AppContext';
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { GetServerSideProps } from 'next';
-import { Article } from '../../src/types/api';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { djangoApi } from '../../src/services/djangoApi';
+import { Article, Tag } from '../../src/types/api';
+import { SITE_URL, getArticlePath } from '../../src/utils/sitemap';
 
 interface TagPageProps {
-  tagSlug: string;
+  tag: Tag;
   articles: Article[];
 }
 
-export default function TagPage({ tagSlug, articles }: TagPageProps) {
-  // URL से टैग का नाम निकाल कर सुंदर बनाएं (जैसे 'windows11' -> 'Windows11')
-  const { language } = useContext(LanguageContext);
-  const tagName = tagSlug.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+export default function TagPage({ tag, articles }: TagPageProps) {
+  const pageTitle = `#${tag.name} - सभी लेख और ट्यूटोरियल्स | टेकवाणी`;
+  const pageDescription = `${tag.name} से जुड़े सभी लेख, ट्यूटोरियल्स और गाइड्स हिंदी में पढ़ें। टेकवाणी पर ${articles.length} लेख उपलब्ध हैं।`;
+  const canonicalUrl = `${SITE_URL}/tag/${tag.slug}`;
 
   return (
     <>
       <Head>
-        <title>{language === 'hi' ? `#${tagName} से जुड़े लेख - टेकवाणी` : `Articles tagged #${tagName} - TechVani`}</title>
-        <meta name="description" content={language === 'hi' ? `#${tagName} टैग से जुड़े सभी तकनीकी लेख और ट्यूटोरियल्स हिंदी में पढ़ें।` : `Read articles and tutorials tagged #${tagName}.`} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
-      <div className="max-w-[1280px] mx-auto px-4 py-10">
-        {/* Page Header */}
-        <div className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
-          <span className="text-xs uppercase font-bold text-[#bb010d] tracking-wider">
-            {language === 'hi' ? 'टैग' : 'Tag'}
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1">
-            #{tagName}
-          </h1>
-          <p className="text-sm text-gray-500 mt-2">
-            {language === 'hi' ? `इस टैग में कुल ${articles.length} लेख उपलब्ध हैं।` : `${articles.length} articles available for this tag.`}
-          </p>
-        </div>
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <nav className="flex items-center gap-2 text-xs text-gray-500 mb-6">
+          <Link href="/" className="hover:text-[#bb010d]">
+            मुख्य पृष्ठ
+          </Link>
+          <span>/</span>
+          <span>#{tag.name}</span>
+        </nav>
 
-        {/* Articles Grid */}
+        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+          #{tag.name} — सभी लेख और ट्यूटोरियल्स
+        </h1>
+
+        <p className="text-gray-500 mb-8 text-sm">
+          {articles.length} लेख उपलब्ध हैं इस टैग में
+        </p>
+
         {articles.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">
-            <span className="material-symbols-outlined text-[50px] text-gray-300 mb-2">inbox</span>
-            <p>{language === 'hi' ? 'इस टैग में अभी कोई लेख नहीं है।' : 'No articles found for this tag yet.'}</p>
+          <div className="bg-white dark:bg-[#131b22] p-8 rounded-2xl border border-gray-200 dark:border-gray-800 text-center">
+            <p className="text-gray-500 mb-4">
+              इस टैग में अभी कोई लेख नहीं है।
+            </p>
+            <Link
+              href="/"
+              className="inline-block px-6 py-2 bg-[#bb010d] text-white rounded-lg font-bold hover:bg-red-700 transition-colors"
+            >
+              मुख्य पृष्ठ पर जाएँ
+            </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {articles.map((article) => (
-              <Link 
-                href={article.rating ? `/product/${article.slug}` : `/article/${article.slug}`} 
-                key={article.id} 
-                className="bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-800 transition-all flex flex-col cursor-pointer group"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articles.map((a) => (
+              <Link
+                key={a.id}
+                href={getArticlePath(a)}
+                className="block bg-white dark:bg-[#131b22] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow"
               >
-                <div className="relative h-48 w-full overflow-hidden">
-                  <img src={article.coverImage} alt={article.imageAlt} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-5 flex flex-col flex-1 justify-between gap-3">
-                  <div className="space-y-2">
-                    <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#bb010d] transition-colors leading-snug line-clamp-2">
-                      {article.title}
-                    </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-3 leading-relaxed">
-                      {article.excerpt}
-                    </p>
+                {a.coverImage && (
+                  <div className="aspect-video relative bg-gray-900">
+                    <img
+                      src={a.coverImage}
+                      alt={a.imageAlt || a.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
-                  <div className="pt-3 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
-                    <span>{article.publishedAt}</span>
-                    <span className="text-[#bb010d] font-bold flex items-center gap-0.5 group-hover:underline">
-                      {language === 'hi' ? 'पढ़ें' : 'Read'} <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                    </span>
-                  </div>
+                )}
+                <div className="p-4">
+                  <h2 className="text-base font-bold text-gray-900 dark:text-white line-clamp-2 mb-2">
+                    {a.title}
+                  </h2>
+                  <p className="text-xs text-gray-500 line-clamp-2">{a.excerpt}</p>
                 </div>
               </Link>
             ))}
           </div>
         )}
+
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+          <h2 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">
+            और भी पढ़ें
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/"
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-[#bb010d] hover:text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              मुख्य पृष्ठ
+            </Link>
+            <Link
+              href="/tools"
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-[#bb010d] hover:text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              ऑनलाइन टूल्स
+            </Link>
+            <Link
+              href="/sitemap"
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-[#bb010d] hover:text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              पूरा साइटमैप
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
-// 🔥 सर्वर-साइड रेंडरिंग (SSR) - टैग के हिसाब से डेटा फ़ेच करना
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { slug } = context.params as { slug: string };
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const tags = await djangoApi.getTags();
+    const paths = (tags || [])
+      .filter((t) => t.slug && /^[a-z0-9\-_]+$/i.test(t.slug))
+      .map((t) => ({ params: { slug: t.slug } }));
+
+    return { paths, fallback: 'blocking' };
+  } catch (err) {
+    console.error('[tag] getStaticPaths failed:', err);
+    return { paths: [], fallback: 'blocking' };
+  }
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const slug = params?.slug as string;
 
   try {
-    // आपके djangoApi के हिसाब से डेटा फ़ेच करें (tag के आधार पर)
-    const res = await djangoApi.getArticles({ tag: slug, pageSize: 20 });
+    const tag = await djangoApi.getTagBySlug(slug);
+
+    if (!tag) {
+      return { notFound: true, revalidate: 60 };
+    }
+
+    const articlesRes = await djangoApi
+      .getArticles({ tag: slug, pageSize: 30 })
+      .catch(() => ({ results: [] }));
 
     return {
       props: {
-        tagSlug: slug,
-        articles: res.results || [],
+        tag,
+        articles: (articlesRes as any)?.results || [],
       },
+      revalidate: 120,
     };
-  } catch (error) {
-    console.error(`Error fetching articles for tag: ${slug}`, error);
-    return {
-      props: {
-        tagSlug: slug,
-        articles: [],
-      },
-    };
+  } catch (err) {
+    console.error('[tag] getStaticProps failed:', err);
+    return { notFound: true, revalidate: 60 };
   }
 };
